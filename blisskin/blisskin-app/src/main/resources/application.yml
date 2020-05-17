@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Blisskin?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Belgrade
+    username: root
+    password: admin
+  #    initialization-mode: always
+  #    data: classpath:full.sql
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        connection:
+          CharSet: utf8
+          characterEncoding: utf8
+          useUnicode: true
