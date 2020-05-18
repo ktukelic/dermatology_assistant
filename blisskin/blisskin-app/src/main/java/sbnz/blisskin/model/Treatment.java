@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name="Treatments")
@@ -26,4 +27,11 @@ public class Treatment {
 
     @ManyToOne
     private Patient patient;
+
+    @ManyToMany
+    private Set<Ingredient> recommendedIngredients;
+
+    @ManyToOne
+    @JoinColumn
+    private PrescriptionDrug prescriptionDrug;
 }

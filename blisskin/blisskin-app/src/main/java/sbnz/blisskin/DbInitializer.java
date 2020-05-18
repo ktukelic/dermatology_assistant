@@ -59,6 +59,9 @@ public class DbInitializer implements CommandLineRunner {
         final SkinIssue skinIssue17 = skinIssueRepository.save(new SkinIssue("Enlarged pores"));
         final SkinIssue skinIssue18 = skinIssueRepository.save(new SkinIssue("Clogged pores"));
         final SkinIssue skinIssue19 = skinIssueRepository.save(new SkinIssue("Dark spots"));
+        final SkinIssue skinIssue20 = skinIssueRepository.save(new SkinIssue("Dulness"));
+        final SkinIssue skinIssue21 = skinIssueRepository.save(new SkinIssue("Scarring"));
+        final SkinIssue skinIssue22 = skinIssueRepository.save(new SkinIssue("Age spots"));
 
         /*
          * Ingredients for recommendation

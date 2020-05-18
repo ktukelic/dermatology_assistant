@@ -30,7 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody AuthenticationRequest loginRequest) {
-        // no validation for now
+        // no authentication for now
         User user = userService.findOne(loginRequest.getUsername(), loginRequest.getPassword());
 
         KieSession kSession = sessionService.initializeSession();

@@ -22,16 +22,7 @@ public class Patient extends User {
     private UUID patientId;
 
     @Column
-    private String firstName;
-
-    @Column
-    private String lastName;
-
-    @Column
     private Integer age;
-
-    @Column
-    private String sex;
 
     @OneToMany
     private Set<Treatment> previousTreatments;

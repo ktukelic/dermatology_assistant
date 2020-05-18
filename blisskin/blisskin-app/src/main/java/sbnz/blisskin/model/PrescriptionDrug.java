@@ -8,27 +8,18 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "PrescriptionDrugs")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class SkinProperties {
-
-    public enum Assessment {
-        VERY_LOW, LOW, NORMAL, HIGH, VERY_HIGH
-    }
+public class PrescriptionDrug {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private Assessment moisture;
+    private String name;
 
-    @Column
-    private Assessment elasticity;
-
-    @Column
-    private Assessment sebum;
-
-    @Column
-    private Assessment sensitivity;
+    @Enumerated(EnumType.STRING)
+    private DrugType drugType;
 
 }

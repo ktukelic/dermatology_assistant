@@ -22,6 +22,12 @@ public class User {
     @Column
     private String password;
 
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
