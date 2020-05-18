@@ -1,9 +1,15 @@
 package sbnz.blisskin.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="SkinIssues")
+@Table(name = "SkinIssues")
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class SkinIssue {
 
     @Id
@@ -11,5 +17,10 @@ public class SkinIssue {
     private Long id;
 
     @Column
+    @NonNull
     private String name;
+
+    // importance LOW | HIGH
+
+
 }

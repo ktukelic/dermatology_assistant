@@ -1,8 +1,15 @@
 package sbnz.blisskin.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -18,4 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User(String username, String password) {
+    }
 }
