@@ -21,8 +21,3 @@ spring:
 
 app:
   db-init: true
-
-rules:
-  groupId: sbnz.blisskin
-  artifactId: blisskin-kjar
-  version: 0.0.1-SNAPSHOT
