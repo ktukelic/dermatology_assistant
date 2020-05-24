@@ -1,0 +1,97 @@
+import sbnz.blisskin.model.dto.*;
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
+import java.util.List;
+
+declare MatchedIngredient 
+    ingredient: Ingredient;
+    skinIssuePercentage: float;
+    skinPropertiesPercentage: float;
+    ingredientDemandsPercentage: float;
+end
+
+rule "Treatment requested"
+    when
+        $request: TreatmentRequest($si: skinIssues)
+        $patientSkinIssues: List() from accumulate (
+            $skinIssue: SkinIssue($name: name) from $si,
+            collectList($name)
+        )
+    then
+end
+
+rule "Group 1 - hydration" extends "Treatment requested"
+    when
+        $ingredient: Ingredient(ingredientGroup == IngredientGroup.HYDRATION,
+                                $ingrSkinIssues: targetedSkinIssues)
+        $matchedSkinIssues: Number() from accumulate (
+            SkinIssue(
+                name memberOf $patientSkinIssues
+            ) from $ingrSkinIssues,
+            count(1)
+        )
+    then
+        MatchedIngredient matchedIngredient = new MatchedIngredient();
+        matchedIngredient.setSkinIssuePercentage(($matchedSkinIssues.floatValue() / $ingredient.getTargetedSkinIssues().size())*100);
+        matchedIngredient.setIngredient($ingredient);
+        System.out.println("[HYDRATION] Ingredient: " + $ingredient.getName() + " is " + matchedIngredient.getSkinIssuePercentage() + "% matched");
+        insert(matchedIngredient);
+end
+
+// All skin issues must be present
+rule "Group 2 - exfoliants" extends "Treatment requested"
+    when
+        $ingredient: Ingredient(ingredientGroup == IngredientGroup.EXFOLIANT,
+                                        $ingrSkinIssues: targetedSkinIssues)
+        $matchedSkinIssues: Number(intValue == $ingrSkinIssues.size()) from accumulate (
+            SkinIssue(
+                name memberOf $patientSkinIssues
+            ) from $ingrSkinIssues,
+            count(1)
+        )
+    then
+        MatchedIngredient matchedIngredient = new MatchedIngredient();
+        matchedIngredient.setSkinIssuePercentage(($matchedSkinIssues.floatValue() / $ingredient.getTargetedSkinIssues().size())*100);
+        matchedIngredient.setIngredient($ingredient);
+        System.out.println("[EXFOLIANT] Ingredient: " + $ingredient.getName() + " is " + matchedIngredient.getSkinIssuePercentage() + "% matched");
+        insert(matchedIngredient);
+end
+
+// Last group, best combined. Skin properties not important
+rule "Group 3 - antioxidants" extends "Treatment requested"
+salience -1
+    when
+        $ingredient: Ingredient(ingredientGroup == IngredientGroup.ANTIOXIDANT,
+                                              $ingrSkinIssues: targetedSkinIssues)
+        $matchedSkinIssues: Number() from accumulate (
+          SkinIssue(
+              name memberOf $patientSkinIssues
+          ) from $ingrSkinIssues,
+          count(1)
+        )
+    then
+        MatchedIngredient matchedIngredient = new MatchedIngredient();
+        matchedIngredient.setSkinIssuePercentage(($matchedSkinIssues.floatValue() / $ingredient.getTargetedSkinIssues().size())*100);
+        matchedIngredient.setIngredient($ingredient);
+        System.out.println("[ANTIOXIDANT] Ingredient: " + $ingredient.getName() + " is " + matchedIngredient.getSkinIssuePercentage() + "% matched");
+        insert(matchedIngredient);
+end
+
+// Only one can be recommended
+rule "Group 4 - skin-restoring" extends "Treatment requested"
+    when
+        $ingredient: Ingredient(ingredientGroup == IngredientGroup.SKIN_RESTORING,
+                                              $ingrSkinIssues: targetedSkinIssues)
+        $matchedSkinIssues: Number() from accumulate (
+          SkinIssue(
+              name memberOf $patientSkinIssues
+          ) from $ingrSkinIssues,
+          count(1)
+        )
+    then
+        MatchedIngredient matchedIngredient = new MatchedIngredient();
+        matchedIngredient.setSkinIssuePercentage(($matchedSkinIssues.floatValue() / $ingredient.getTargetedSkinIssues().size())*100);
+        matchedIngredient.setIngredient($ingredient);
+        System.out.println("[SKIN_RESTORING] Ingredient: " + $ingredient.getName() + " is " + matchedIngredient.getSkinIssuePercentage() + "% matched");
+        insert(matchedIngredient);
+end

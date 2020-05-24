@@ -1,0 +1,10 @@
+.list-group{
+  max-height: 523px;
+  //margin-bottom: 10px;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list-group-item, label {
+  font-family: Consolas;
+}

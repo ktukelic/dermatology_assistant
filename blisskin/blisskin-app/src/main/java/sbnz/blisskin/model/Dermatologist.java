@@ -3,6 +3,7 @@ package sbnz.blisskin.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sbnz.blisskin.model.enumerations.Role;
 
 import javax.persistence.Entity;
 

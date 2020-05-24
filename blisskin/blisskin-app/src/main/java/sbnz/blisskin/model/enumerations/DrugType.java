@@ -1,4 +1,4 @@
-package sbnz.blisskin.model;
+package sbnz.blisskin.model.enumerations;
 
 public enum DrugType {
     ANTIFUNGAL,

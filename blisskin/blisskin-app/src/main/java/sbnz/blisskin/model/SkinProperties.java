@@ -1,19 +1,17 @@
 package sbnz.blisskin.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sbnz.blisskin.model.enumerations.Assessment;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class SkinProperties {
-
-    public enum Assessment {
-        VERY_LOW, LOW, NORMAL, HIGH, VERY_HIGH
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +28,6 @@ public class SkinProperties {
 
     @Column
     private Assessment sensitivity;
+
 
 }

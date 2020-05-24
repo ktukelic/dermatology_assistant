@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Set variables for all modes */
+:root {
+  /* Set the background of the entire app */
+  --my-background-color: #f7e5b0;
+  --color1: #eab0c3;
+  --my-primary: #ae93d9;
+  --color3: #f19c0a;
+  --color4: #ac4b04;
+}
+
+body {
+  background-color: var(--my-background-color);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+button.my-primary  {
+  background-color: var(--my-primary) !important;
+  color: whitesmoke;
+}
+
+.logo {
+  //font-size: 72px;
+  background: linear-gradient(to right, rgba(49, 27, 146,1), rgba(49, 27, 146,0.4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

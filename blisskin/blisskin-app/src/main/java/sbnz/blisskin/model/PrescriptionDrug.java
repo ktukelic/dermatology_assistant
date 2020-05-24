@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sbnz.blisskin.model.enumerations.DrugType;
 
 import javax.persistence.*;
 

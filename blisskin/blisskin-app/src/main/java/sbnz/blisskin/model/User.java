@@ -3,6 +3,7 @@ package sbnz.blisskin.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sbnz.blisskin.model.enumerations.Role;
 
 import javax.persistence.*;
 
@@ -32,5 +33,7 @@ public class User {
     private Role role;
 
     public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 }

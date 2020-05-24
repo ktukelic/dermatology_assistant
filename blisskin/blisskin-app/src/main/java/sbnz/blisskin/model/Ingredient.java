@@ -1,6 +1,7 @@
 package sbnz.blisskin.model;
 
 import lombok.*;
+import sbnz.blisskin.model.enumerations.IngredientGroup;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,15 +19,24 @@ public class Ingredient {
     @NonNull
     private String name;
 
-    @JoinColumn(name = "skin_properties_id", unique = true)
-    @OneToOne(cascade = CascadeType.ALL)
-    private SkinProperties targetedSkinProperties;
+    @Column
+    @NonNull
+    private IngredientGroup ingredientGroup;
 
-    @ManyToMany
+    @JoinColumn(name = "skin_properties_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private SkinProperties targetedSkinProperties;      // lower bounds
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn
     private Set<SkinIssue> targetedSkinIssues;
 
-    // mozda grupe kao
-    // moisturizers, exfoliants, potent (moze samo jedan iz grupe)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn
+    private Set<IngredientDemand> ingredientDemands;
+
+
+
+
 
 }

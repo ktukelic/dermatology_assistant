@@ -1,0 +1,34 @@
+import sbnz.blisskin.model.dto.TreatmentRequest;
+import sbnz.blisskin.model.enumerations.Assessment;
+
+rule "Low humidity"
+salience 100
+when
+    $info: TreatmentRequest(humidity == Assessment.LOW)
+then
+    System.out.println("Low humidity");
+end
+
+rule "High humidity"
+salience 100
+when
+    $info: TreatmentRequest(humidity == Assessment.HIGH)
+then
+    System.out.println("High humidity");
+end
+
+rule "Low sun exposure"
+salience 100
+when
+    $info: TreatmentRequest(sunExposure == Assessment.LOW)
+then
+    System.out.println("Low sun exposure");
+end
+
+rule "High sun exposure"
+salience 100
+when
+    $info: TreatmentRequest(sunExposure == Assessment.HIGH)
+then
+    System.out.println("High sun exposure");
+end

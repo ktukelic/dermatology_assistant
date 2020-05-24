@@ -1,0 +1,22 @@
+import sbnz.blisskin.model.dto.TreatmentRequest;
+
+rule "Patient age 10 to 20"
+when
+    $info: TreatmentRequest(patientAge >= 10, patientAge <= 20)
+then
+    System.out.println("Patient age 10 to 20");
+end
+
+rule "Patient age 20 to 40"
+when
+    $info: TreatmentRequest(patientAge > 20, patientAge <= 40)
+then
+    System.out.println("Patient age 20 to 40");
+end
+
+rule "Patient age 40+"
+when
+    $info: TreatmentRequest(patientAge > 40)
+then
+    System.out.println("Patient age 40+");
+end
