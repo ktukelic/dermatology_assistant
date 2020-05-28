@@ -5,7 +5,7 @@
       <p class="h4 mb-4 logo">Blisskin</p>
       <input type="text" class="form-control mb-4" placeholder="Username" formControlName="username">
       <input type="password" class="form-control mb-4" placeholder="Password" formControlName="password">
-      <button mdbBtn block="true" class="my-4 my-primary" type="button" mdbWavesEffect (click)="onSignIn()">Sign in</button>
+      <button class="btn btn-block my-4 my-primary" type="button" (click)="onSignIn()">Sign in</button>
 
       <div class="alert alert-warning alert-dismissible fade show" role="alert" *ngIf="showAlert">
         <button type="button" class="close" aria-label="Close" (click)="showAlert=!showAlert">
@@ -17,4 +17,5 @@
 
   </div>
 </div>
+
 

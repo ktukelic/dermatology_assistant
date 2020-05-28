@@ -7,9 +7,8 @@ import {AppComponent} from './app.component';
 import {AuthComponent} from './auth/auth.component';
 import {DermatologistModule} from './dermatologist/dermatologist.module';
 import {PatientModule} from './patient/patient.module';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {HeaderComponent} from './header/header.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,18 +16,19 @@ import {ReactiveFormsModule} from '@angular/forms';
     AuthComponent,
     HeaderComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MDBBootstrapModule.forRoot(),
-        DermatologistModule,
-        PatientModule,
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    DermatologistModule,
+    PatientModule,
 
-    ],
-  schemas: [ NO_ERRORS_SCHEMA ],
+  ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

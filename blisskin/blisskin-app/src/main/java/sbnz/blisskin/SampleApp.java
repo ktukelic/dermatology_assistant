@@ -21,13 +21,13 @@ public class SampleApp {
 		ApplicationContext ctx = SpringApplication.run(SampleApp.class, args);
 	}
 
-	@Bean
-	public KieContainer kieContainer() {
-		KieServices ks = KieServices.Factory.get();
-		KieContainer kContainer = ks
-				.newKieContainer(ks.newReleaseId("sbnz.blisskin", "blisskin-kjar", "0.0.1-SNAPSHOT"));
-		KieScanner kScanner = ks.newKieScanner(kContainer);
-		kScanner.start(10_000);
-		return kContainer;
-	}
+//	@Bean
+//	public KieContainer kieContainer() {
+//		KieServices ks = KieServices.Factory.get();
+//		KieContainer kContainer = ks
+//				.newKieContainer(ks.newReleaseId("sbnz.blisskin", "blisskin-kjar", "0.0.1-SNAPSHOT"));
+//		KieScanner kScanner = ks.newKieScanner(kContainer);
+//		kScanner.start(10_000);
+//		return kContainer;
+//	}
 }

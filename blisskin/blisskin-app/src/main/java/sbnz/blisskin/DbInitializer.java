@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import sbnz.blisskin.model.*;
+import sbnz.blisskin.model.enumerations.Assessment;
 import sbnz.blisskin.model.enumerations.IngredientGroup;
 import sbnz.blisskin.repository.IngredientDemandRepository;
 import sbnz.blisskin.repository.IngredientRepository;
@@ -64,10 +65,10 @@ public class DbInitializer implements CommandLineRunner {
         final SkinIssue SCARRING = skinIssueRepository.save(new SkinIssue("Scarring"));
         final SkinIssue AGE_SPOTS = skinIssueRepository.save(new SkinIssue("Age spots"));
 
-        final IngredientDemand LOW_HUMIDITY = ingredientDemandRepository.save(new IngredientDemand("Low humidity"));
-        final IngredientDemand HIGH_HUMIDITY = ingredientDemandRepository.save(new IngredientDemand("High humidity"));
-        final IngredientDemand LOW_SUN_EXPOSURE = ingredientDemandRepository.save(new IngredientDemand("Low sun exposure"));
-        final IngredientDemand HIGH_SUN_EXPOSURE = ingredientDemandRepository.save(new IngredientDemand("High sun exposure"));
+        final IngredientDemand LOW_HUMIDITY = ingredientDemandRepository.save(new IngredientDemand("Environmental impact - low humidity"));
+        final IngredientDemand HIGH_HUMIDITY = ingredientDemandRepository.save(new IngredientDemand("Environmental impact - high humidity"));
+        final IngredientDemand LOW_SUN_EXPOSURE = ingredientDemandRepository.save(new IngredientDemand("Environmental impact - low sun exposure"));
+        final IngredientDemand HIGH_SUN_EXPOSURE = ingredientDemandRepository.save(new IngredientDemand("Environmental impact - high sun exposure"));
 
         // age restrictions
         final IngredientDemand YOUNG = ingredientDemandRepository.save(new IngredientDemand("Patient age 10 to 20"));
@@ -80,19 +81,23 @@ public class DbInitializer implements CommandLineRunner {
 
         // Skin replenishing - hydration
         final Ingredient ingredient1 = new Ingredient("Ceramides", IngredientGroup.HYDRATION);
-        ingredient1.setTargetedSkinProperties(new SkinProperties());
+        ingredient1.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient1.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(DRYNESS); add(REDNESS); add(ECZEMA); add(PSORIAZIS); add(FLAKINESS); add(FINE_LINES);
         }});
         ingredientRepository.save(ingredient1);
 
         final Ingredient ingredient2 = new Ingredient("Hyaluronic Acid", IngredientGroup.HYDRATION);
+        ingredient2.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient2.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(FINE_LINES); add(WRINKLES); add(DRYNESS); add(INFLAMMATION);
         }});
         ingredientRepository.save(ingredient2);
 
         final Ingredient ingredient3 = new Ingredient("Glycerin", IngredientGroup.HYDRATION);
+        SkinProperties skinProperties1 = new SkinProperties();
+        skinProperties1.setSebum(Assessment.HIGH);
+        ingredient3.setNotRecommendedSkinProperties(skinProperties1);
         ingredient3.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(DRYNESS); add(FLAKINESS); add(INFLAMMATION);
         }});
@@ -104,12 +109,14 @@ public class DbInitializer implements CommandLineRunner {
 
         // Skin replenishing - exfoliants
         final Ingredient ingredient4 = new Ingredient("Lactic acid", IngredientGroup.EXFOLIANT);
+        ingredient4.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient4.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(FINE_LINES); add(HYPERPIGMENTATION); add(DARK_SPOTS); add(SKIN_TEXTURE);
         }});
         ingredientRepository.save(ingredient4);
 
         final Ingredient ingredient5 = new Ingredient("Glycolic acid", IngredientGroup.EXFOLIANT);
+        ingredient5.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient5.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(FINE_LINES); add(WRINKLES); add(HYPERPIGMENTATION); add(DARK_SPOTS);
             add(SKIN_TEXTURE); add(ENLARGED_PORES);
@@ -117,12 +124,14 @@ public class DbInitializer implements CommandLineRunner {
         ingredientRepository.save(ingredient5);
 
         final Ingredient ingredient6 = new Ingredient("Salicylic acid", IngredientGroup.EXFOLIANT);
+        ingredient6.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient6.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(BLACKHEADS); add(WHITEHEADS); add(SKIN_TEXTURE); add(ENLARGED_PORES); add(CLOGGED_PORES);
         }});
         ingredientRepository.save(ingredient6);
 
         final Ingredient ingredient7 = new Ingredient("Benzoyl Peroxide", IngredientGroup.EXFOLIANT);
+        ingredient7.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient7.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(ACNE); add(INFLAMMATION); add(ENLARGED_PORES);
         }});
@@ -134,12 +143,14 @@ public class DbInitializer implements CommandLineRunner {
 
         // Antioxidants (most effective when combined)
         final Ingredient ingredient8 = new Ingredient("Vitamin E", IngredientGroup.ANTIOXIDANT);
+        ingredient8.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient8.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(DRYNESS); add(INFLAMMATION); add(DARK_SPOTS);
         }});
         ingredientRepository.save(ingredient8);
 
         final Ingredient ingredient9 = new Ingredient("Vitamin C", IngredientGroup.ANTIOXIDANT);
+        ingredient9.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient9.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(FINE_LINES); add(SCARRING); add(WRINKLES); add(DULLNESS);
             add(HYPERPIGMENTATION); add(DARK_SPOTS); add(SUN_DAMAGE);
@@ -147,6 +158,7 @@ public class DbInitializer implements CommandLineRunner {
         ingredientRepository.save(ingredient9);
 
         final Ingredient ingredient10 = new Ingredient("Green tea", IngredientGroup.ANTIOXIDANT);
+        ingredient10.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient10.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(ROSACEA); add(INFLAMMATION); add(SUN_DAMAGE); add(REDNESS);
         }});
@@ -154,12 +166,14 @@ public class DbInitializer implements CommandLineRunner {
 
         // Skin restoring
         final Ingredient ingredient11 = new Ingredient("Hydroquinone", IngredientGroup.SKIN_RESTORING);
+        ingredient11.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient11.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(HYPERPIGMENTATION); add(DARK_SPOTS); add(AGE_SPOTS);
         }});
         ingredientRepository.save(ingredient11);
 
         final Ingredient ingredient12 = new Ingredient("Retinol", IngredientGroup.SKIN_RESTORING);
+        ingredient12.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient12.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(ACNE); add(FINE_LINES); add(WRINKLES); add(AGE_SPOTS);
             add(CLOGGED_PORES); add(SCARRING); add(SUN_DAMAGE);
@@ -167,6 +181,7 @@ public class DbInitializer implements CommandLineRunner {
         ingredientRepository.save(ingredient12);
 
         final Ingredient ingredient13 = new Ingredient("Niacinamide", IngredientGroup.SKIN_RESTORING);
+        ingredient13.setNotRecommendedSkinProperties(new SkinProperties());
         ingredient13.setTargetedSkinIssues(new HashSet<SkinIssue>(){{
             add(ACNE); add(BLACKHEADS); add(WHITEHEADS); add(ROSACEA);
             add(INFLAMMATION); add(HYPERPIGMENTATION); add(SUN_DAMAGE);

@@ -1,0 +1,88 @@
+package rules.reasoning;
+dialect  "mvel"
+
+import sbnz.blisskin.model.dto.*;
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
+
+rule "Skin issues matched"
+    when
+        TreatmentRequest($patientSkinProperties: skinProperties)
+    then
+end
+
+/*
+ * HYDRATION
+ */
+rule "Don't recommend hydration ingredient based on patient sebum" extends "Skin issues matched"
+    when
+        // if ingredient is not good for patients skin sebum
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.HYDRATION,
+            ingredient.notRecommendedSkinProperties.sebum != null,
+            ingredient.notRecommendedSkinProperties.sebum == $patientSkinProperties.sebum)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-1);}
+end
+
+
+/*
+ * EXFOLIANTS
+ */
+rule "Don't recommend exfoliant ingredient based on patient sensitivity" extends "Skin issues matched"
+    when
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.EXFOLIANT,
+            ingredient.notRecommendedSkinProperties.sensitivity != null,
+            ingredient.notRecommendedSkinProperties.sensitivity == $patientSkinProperties.sensitivity)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-1);}
+end
+
+rule "Don't recommend exfoliant ingredient based on patient moisture" extends "Skin issues matched"
+    when
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.EXFOLIANT,
+            ingredient.notRecommendedSkinProperties.moisture != null,
+            ingredient.notRecommendedSkinProperties.moisture == $patientSkinProperties.moisture)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-0.5);}
+end
+
+
+/*
+ * ANTIOXIDANTS
+ */
+rule "Don't recommend antioxidant ingredient based on patient sensitivity" extends "Skin issues matched"
+    when
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.ANTIOXIDANT,
+            ingredient.notRecommendedSkinProperties.sensitivity != null,
+            ingredient.notRecommendedSkinProperties.sensitivity == $patientSkinProperties.sensitivity)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-0.3);}
+end
+
+
+/*
+ * SKIN RESTORING
+ */
+rule "Don't recommend skin restoring ingredient based on patient sensitivity" extends "Skin issues matched"
+    when
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.SKIN_RESTORING,
+            ingredient.notRecommendedSkinProperties.sensitivity != null,
+            ingredient.notRecommendedSkinProperties.sensitivity == $patientSkinProperties.sensitivity)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-1);}
+end
+
+rule "Don't recommend skin restoring ingredient based on patient moisture" extends "Skin issues matched"
+    when
+        $matchedIngredient: MatchedIngredient(
+            ingredient.ingredientGroup == IngredientGroup.SKIN_RESTORING,
+            ingredient.notRecommendedSkinProperties.moisture != null,
+            ingredient.notRecommendedSkinProperties.moisture == $patientSkinProperties.moisture)
+    then
+        modify($matchedIngredient){setSkinPropertiesValue($matchedIngredient.getSkinPropertiesValue()-0.3);}
+end

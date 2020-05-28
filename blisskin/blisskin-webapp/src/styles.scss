@@ -4,15 +4,17 @@
 :root {
   /* Set the background of the entire app */
   --my-background-color: #f7e5b0;
-  --color1: #eab0c3;
+  --my-secondary: #eab0c3;
   --my-primary: #ae93d9;
-  --color3: #f19c0a;
-  --color4: #ac4b04;
+  --my-warning: #f19c0a;
+  --my-accent: #ac4b04;
 }
 
 body {
-  background-color: var(--my-background-color);
+  //background-color: var(--my-background-color);
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: rgb(234,176,195);
+  background: radial-gradient(circle, rgba(234,176,195,1) 0%, rgba(174,147,217,1) 100%);
 }
 
 button.my-primary  {

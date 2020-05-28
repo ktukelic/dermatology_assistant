@@ -25,7 +25,7 @@ public class Ingredient {
 
     @JoinColumn(name = "skin_properties_id")
     @OneToOne(cascade = CascadeType.ALL)
-    private SkinProperties targetedSkinProperties;      // lower bounds
+    private SkinProperties notRecommendedSkinProperties;      // lower bounds
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn

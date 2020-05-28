@@ -34,4 +34,8 @@ public class Treatment {
     @ManyToOne
     @JoinColumn
     private PrescriptionDrug prescriptionDrug;
+
+//    @OneToMany
+//    @JoinColumn
+//    private Set<SkinIssue> treatedSkinIssues;
 }

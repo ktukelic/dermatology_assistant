@@ -1,0 +1,116 @@
+package rules.reasoning;
+dialect  "mvel"
+
+import sbnz.blisskin.model.dto.*;
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
+import java.util.List;
+
+rule "Find best matched hydration ingredient"
+salience -100
+when
+    $mostProbable: MatchedIngredient() from accumulate(
+        $matchedIngredient: MatchedIngredient(
+            ingredient.IngredientGroup == IngredientGroup.HYDRATION,
+            $percentageMatched: skinIssuesValue + skinPropertiesValue + ingredientDemandsValue
+        ),
+        init(float max = 0; MatchedIngredient bestMatched = null;),
+        action(
+            if (bestMatched == null || $percentageMatched > max) {
+                max = $percentageMatched;
+                bestMatched = $matchedIngredient;
+            }
+        ),
+        result(bestMatched)
+    )
+then
+    modify($mostProbable) { setTotal() };
+    System.out.println("[BEST MATCHED HYDRATION] " + $mostProbable.getIngredient().getName() + " " + $mostProbable.getSumPercentage());
+
+end
+
+rule "Find best matched exfoliation ingredient"
+salience -100
+when
+    $mostProbable: MatchedIngredient() from accumulate(
+        $matchedIngredient: MatchedIngredient(
+            ingredient.IngredientGroup == IngredientGroup.EXFOLIANT,
+            $percentageMatched: skinIssuesValue + skinPropertiesValue + ingredientDemandsValue
+        ),
+        init(float max = 0; MatchedIngredient bestMatched = null;),
+        action(
+            if (bestMatched == null || $percentageMatched > max) {
+                max = $percentageMatched;
+                bestMatched = $matchedIngredient;
+            }
+        ),
+        result(bestMatched)
+    )
+then
+    modify($mostProbable) { setTotal()};
+    System.out.println("[BEST MATCHED EXFOLIATION] " + $mostProbable.getIngredient().getName() + " " + $mostProbable.getSumPercentage());
+end
+
+rule "Find best matched antioxidant ingredient"
+salience -100
+when
+    $mostProbable: MatchedIngredient() from accumulate(
+        $matchedIngredient: MatchedIngredient(
+            ingredient.IngredientGroup == IngredientGroup.ANTIOXIDANT,
+            $percentageMatched: skinIssuesValue + skinPropertiesValue + ingredientDemandsValue
+        ),
+        init(float max = 0; MatchedIngredient bestMatched = null;),
+        action(
+            if (bestMatched == null || $percentageMatched > max) {
+                max = $percentageMatched;
+                bestMatched = $matchedIngredient;
+            }
+        ),
+        result(bestMatched)
+    )
+then
+    modify($mostProbable) { setTotal() };
+    System.out.println("[BEST MATCHED ANTIOXIDANT] " + $mostProbable.getIngredient().getName() + " " + $mostProbable.getSumPercentage());
+end
+
+rule "Find best matched skin-restoring ingredient"
+salience -100
+when
+    $mostProbable: MatchedIngredient() from accumulate(
+        $matchedIngredient: MatchedIngredient(
+            ingredient.IngredientGroup == IngredientGroup.SKIN_RESTORING,
+            $percentageMatched: skinIssuesValue + skinPropertiesValue + ingredientDemandsValue
+        ),
+        init(float max = 0; MatchedIngredient bestMatched = null;),
+        action(
+            if (bestMatched == null || $percentageMatched > max) {
+                max = $percentageMatched;
+                bestMatched = $matchedIngredient;
+            }
+        ),
+        result(bestMatched)
+    )
+then
+    modify($mostProbable) { setTotal()};
+    System.out.println("[BEST MATCHED SKIN_RESTORING] " + $mostProbable.getIngredient().getName() + " " + $mostProbable.getSumPercentage());
+end
+
+rule "Generate best treatment"
+when
+    $h: MatchedIngredient(ingredient.ingredientGroup == IngredientGroup.HYDRATION, total != null)
+    $e: MatchedIngredient(ingredient.ingredientGroup == IngredientGroup.EXFOLIANT, total != null)
+    $a: MatchedIngredient(ingredient.ingredientGroup == IngredientGroup.ANTIOXIDANT, total != null)
+    $sr: MatchedIngredient(ingredient.ingredientGroup == IngredientGroup.SKIN_RESTORING, total != null)
+then
+    TreatmentResponse response = new TreatmentResponse();
+    response.setHydration($h);
+    response.setExfoliant($e);
+    response.setAntioxidant($a);
+    response.setSkinRestoring($sr);
+    insert(response);
+end
+
+query "getTreatmentResponse"
+    $result: TreatmentResponse()
+end
+

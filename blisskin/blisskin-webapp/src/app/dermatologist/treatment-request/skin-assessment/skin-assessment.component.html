@@ -1,31 +1,35 @@
 <div class="row">
+
   <div class="text-center p-5 col-6">
     <p class="h4 mb-4 logo">Skin issues</p>
-    <div class="list-group">
-      <span class="list-group-item" *ngFor="let skinIssue of allSkinIssues">
-        <mdb-checkbox [value]="skinIssue">{{skinIssue}}</mdb-checkbox>
-
-      </span>
+    <div class="list-group" style="border: 1px solid lightgray; border-radius: 5px">
+      <div class="inputGroup" *ngFor="let skinIssue of allSkinIssues; let i = index;">
+        <input [id]="i" [name]="skinIssue.name" type="checkbox" [value]="skinIssue"
+               (change)="$event.target.checked? selectedSkinIssues.push(skinIssue) : selectedSkinIssues.splice(selectedSkinIssues.indexOf(skinIssue))"/>
+        <label [for]="i">{{skinIssue.name}}</label>
+      </div>
     </div>
   </div>
 
   <div class="text-center p-5 col-6 list-group">
     <p class="h4 mb-4 logo">Skin properties</p>
-
     <div class="row justify-content-center list-group-item">
       <div class="custom-control custom-control-inline font-weight-bold">
         <span>Moisture</span>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="lowMoisture" name="moistureRadioButtons">
+        <input type="radio" class="custom-control-input" id="lowMoisture" name="moistureRadioButtons"
+               value=0 [(ngModel)]="skinProperties.moisture">
         <label class="custom-control-label" for="lowMoisture">Low</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="normalMoisture" name="moistureRadioButtons">
+        <input type="radio" class="custom-control-input" id="normalMoisture" name="moistureRadioButtons"
+               value=1 [(ngModel)]="skinProperties.moisture">
         <label class="custom-control-label" for="normalMoisture">Normal</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="highMoisture" name="moistureRadioButtons">
+        <input type="radio" class="custom-control-input" id="highMoisture" name="moistureRadioButtons"
+               value=2 [(ngModel)]="skinProperties.moisture">
         <label class="custom-control-label" for="highMoisture">High</label>
       </div>
     </div>
@@ -36,56 +40,41 @@
         <span>Sebum</span>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="lowSebum" name="sebumRadioButtons">
+        <input type="radio" class="custom-control-input" id="lowSebum" name="sebumRadioButtons"
+               value=0 [(ngModel)]="skinProperties.sebum">
         <label class="custom-control-label" for="lowSebum">Low</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="normalSebum" name="sebumRadioButtons">
+        <input type="radio" class="custom-control-input" id="normalSebum" name="sebumRadioButtons"
+               value=1 [(ngModel)]="skinProperties.sebum">
         <label class="custom-control-label" for="normalSebum">Normal</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="highSebum" name="sebumRadioButtons">
+        <input type="radio" class="custom-control-input" id="highSebum" name="sebumRadioButtons"
+               value=2 [(ngModel)]="skinProperties.sebum">
         <label class="custom-control-label" for="highSebum">High</label>
       </div>
     </div>
-
-
-    <div class="row justify-content-center list-group-item">
-      <div class="custom-control custom-control-inline font-weight-bold">
-        <span>Elasticity</span>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="lowElasticity" name="elasticityRadioButtons">
-        <label class="custom-control-label" for="lowElasticity">Low</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="normalElasticity" name="elasticityRadioButtons">
-        <label class="custom-control-label" for="normalElasticity">Normal</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="highElasticity" name="elasticityRadioButtons">
-        <label class="custom-control-label" for="highElasticity">High</label>
-      </div>
-    </div>
-
 
     <div class="row justify-content-center list-group-item">
       <div class="custom-control custom-control-inline font-weight-bold">
         <span>Sensitivity</span>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="lowSensitivity" name="sensitivityRadioButtons">
+        <input type="radio" class="custom-control-input" id="lowSensitivity" name="sensitivityRadioButtons"
+               value=0 [(ngModel)]="skinProperties.sensitivity">
         <label class="custom-control-label" for="lowSensitivity">Low</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="normalSensitivity" name="sensitivityRadioButtons">
+        <input type="radio" class="custom-control-input" id="normalSensitivity" name="sensitivityRadioButtons"
+               value=1 [(ngModel)]="skinProperties.sensitivity">
         <label class="custom-control-label" for="normalSensitivity">Normal</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" id="highSensitivity" name="sensitivityRadioButtons">
+        <input type="radio" class="custom-control-input" id="highSensitivity" name="sensitivityRadioButtons"
+               value=2 [(ngModel)]="skinProperties.sensitivity">
         <label class="custom-control-label" for="highSensitivity">High</label>
       </div>
     </div>
-
   </div>
 </div>

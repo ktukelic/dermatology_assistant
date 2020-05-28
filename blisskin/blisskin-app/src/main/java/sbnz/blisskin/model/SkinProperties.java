@@ -1,5 +1,6 @@
 package sbnz.blisskin.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class SkinProperties {
 
     @Id
@@ -21,13 +22,17 @@ public class SkinProperties {
     private Assessment moisture;
 
     @Column
-    private Assessment elasticity;
-
-    @Column
     private Assessment sebum;
 
     @Column
     private Assessment sensitivity;
+
+    public SkinProperties() {
+        this.moisture = null;
+        this.sebum = null;
+        this.sensitivity = null;
+    }
+
 
 
 }
