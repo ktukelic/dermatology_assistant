@@ -1,0 +1,21 @@
+package rules.reasoning;
+dialect  "mvel"
+
+query "Get ingredients for given skin issues"
+    $skinIssues: List() from collect (SkinIssue())
+    $skinIssueNames: List() from accumulate (
+        SkinIssue($name: name) from $skinIssues,
+        collectList($name)
+    )
+    $ingredient: Ingredient($targetedSkinIssues: targetedSkinIssues)
+    $numberOfMatches: Number(floatValue > 0) from accumulate (
+        SkinIssue(
+            name memberOf $skinIssueNames
+        ) from $targetedSkinIssues,
+        count(1)
+    )
+end
+
+query "Get ingredient information" (Long ingredientId)
+    $ingredient: Ingredient(id == ingredientId)
+end

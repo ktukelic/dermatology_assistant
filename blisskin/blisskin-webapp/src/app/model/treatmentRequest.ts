@@ -1,5 +1,3 @@
-import {SkinProperties} from './skinProperties';
-
 export interface TreatmentRequest {
   username?: string;
   patientAge: number;

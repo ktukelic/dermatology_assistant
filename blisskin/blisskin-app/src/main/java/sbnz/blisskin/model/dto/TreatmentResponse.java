@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sbnz.blisskin.model.MatchedIngredient;
+import sbnz.blisskin.model.enumerations.Drug;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class TreatmentResponse {
@@ -14,4 +15,6 @@ public class TreatmentResponse {
     private MatchedIngredient exfoliant;
     private MatchedIngredient antioxidant;
     private MatchedIngredient skinRestoring;
+
+    private Drug drug = null;
 }

@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 /* Set variables for all modes */
 :root {
   /* Set the background of the entire app */
@@ -11,7 +10,6 @@
 }
 
 body {
-  //background-color: var(--my-background-color);
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: rgb(234,176,195);
   background: radial-gradient(circle, rgba(234,176,195,1) 0%, rgba(174,147,217,1) 100%);
@@ -23,7 +21,6 @@ button.my-primary  {
 }
 
 .logo {
-  //font-size: 72px;
   background: linear-gradient(to right, rgba(49, 27, 146,1), rgba(49, 27, 146,0.4));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -7,8 +7,11 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "Ingredients")
-@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode
 public class Ingredient {
 
     @Id
@@ -25,7 +28,7 @@ public class Ingredient {
 
     @JoinColumn(name = "skin_properties_id")
     @OneToOne(cascade = CascadeType.ALL)
-    private SkinProperties notRecommendedSkinProperties;      // lower bounds
+    private SkinProperties notRecommendedSkinProperties;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn
@@ -34,9 +37,6 @@ public class Ingredient {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn
     private Set<IngredientDemand> ingredientDemands;
-
-
-
 
 
 }

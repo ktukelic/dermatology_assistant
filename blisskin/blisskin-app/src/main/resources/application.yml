@@ -21,3 +21,12 @@ spring:
 
 app:
   db-init: true
+
+security:
+  secret: "Authorization"
+  expiration: 86400
+
+kjar:
+  groupId: sbnz.blisskin
+  artifactId: blisskin-kjar
+  version: 0.0.1-SNAPSHOT

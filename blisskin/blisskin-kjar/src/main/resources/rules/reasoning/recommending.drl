@@ -91,7 +91,7 @@ when
         result(bestMatched)
     )
 then
-    modify($mostProbable) { setTotal()};
+    modify($mostProbable) { setTotal() };
     System.out.println("[BEST MATCHED SKIN_RESTORING] " + $mostProbable.getIngredient().getName() + " " + $mostProbable.getSumPercentage());
 end
 
@@ -111,6 +111,6 @@ then
 end
 
 query "getTreatmentResponse"
-    $result: TreatmentResponse()
+    $result: TreatmentResponse(drug != null)
 end
 

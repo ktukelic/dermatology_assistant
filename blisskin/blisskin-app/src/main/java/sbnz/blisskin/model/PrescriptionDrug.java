@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sbnz.blisskin.model.enumerations.DrugType;
+import sbnz.blisskin.model.enumerations.Drug;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PrescriptionDrugs")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class PrescriptionDrug {
 
@@ -21,6 +20,6 @@ public class PrescriptionDrug {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private DrugType drugType;
+    private Drug drugType;
 
 }

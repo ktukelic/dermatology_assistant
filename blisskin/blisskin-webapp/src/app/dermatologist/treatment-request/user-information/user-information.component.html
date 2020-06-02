@@ -21,9 +21,9 @@
         </div>
       </div>
       <button class="btn btn-block btn-outline-info mb-4" type="button"
-              (click)="onSubmitPatient()">
-        Submit patient
-      </button>
+                             (click)="onSubmitPatient()">
+      Submit patient
+    </button>
     </form>
     <hr>
 
@@ -42,12 +42,11 @@
     </form>
 
 
-    <!-- TODO Dodati prikaz informacija o pacijentu -->
+    <!-- TODO Dodati lep prikaz informacija o pacijentu -->
     <div class="text-justify" *ngIf="patient !== null">
       <p>First name: {{patient.firstName}}</p>
       <p>Last name: {{patient.lastName}}</p>
       <p>Username: {{patient.username}}</p>
-      <p>Password: {{patient.password}}</p>
     </div>
 
   </div>

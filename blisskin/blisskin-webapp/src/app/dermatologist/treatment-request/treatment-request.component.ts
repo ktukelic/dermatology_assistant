@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TreatmentRequest} from '../../model/treatmentRequest';
 import {TreatmentService} from '../../services/treatment.service';
 import {Patient} from '../../model/patient';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-treatment-request',
@@ -22,8 +23,10 @@ export class TreatmentRequestComponent implements OnInit {
 
   treatmentRequest: TreatmentRequest;
   treatmentResponse: any = null;
+  ingredientsMap: any = null;
 
   loading = true;
+  loadingIngredients = true;
 
   constructor(private treatmentService: TreatmentService) {
   }
@@ -43,10 +46,23 @@ export class TreatmentRequestComponent implements OnInit {
     };
     this.treatmentService.findBestTreatment(this.treatmentRequest).subscribe(response => {
       this.treatmentResponse = response;
-      console.log(this.treatmentResponse);
       this.loading = false;
     });
+  }
 
+  onFindIngredients() {
+    if (this.selectedSkinIssues.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        text: 'Select at least 1 skin issue'
+      });
+      return;
+    }
+
+    this.treatmentService.findIngredientsForGivenSkinIssues(this.selectedSkinIssues).subscribe(response => {
+      this.ingredientsMap = response;
+      this.loadingIngredients = false;
+    });
   }
 
   onPatientChanged(patient) {
@@ -57,6 +73,10 @@ export class TreatmentRequestComponent implements OnInit {
     this.humidity = info.humidity;
     this.sunExposure = info.sunExposure;
     // console.log(Assessment[this.humidity])
+  }
+
+  asIsOrder(a, b) {
+    return 1;
   }
 
 }

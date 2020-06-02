@@ -1,7 +1,7 @@
 .container {
   margin: 0 auto;
   padding: 50px 0 0;
-  max-width: 960px;
+  //max-width: 960px;
   width: 100%;
 }
 
@@ -34,6 +34,7 @@
 .pricing-plan {
   border-bottom: 1px solid #e1f1ff;
   padding: 25px;
+  max-width: 315px;
 }
 
 .pricing-plan:last-child {
@@ -43,7 +44,7 @@
 @media (min-width: 900px) {
   .pricing-plan {
     border-bottom: none;
-    border-right: 1px solid #e1f1ff;
+    //border-right: 1px solid #e1f1ff;
     flex-basis: 100%;
     padding: 25px 50px;
   }
@@ -55,7 +56,7 @@
 
 .pricing-img {
   margin-bottom: 25px;
-  max-width: 100%;
+  max-width: 150px;
 }
 
 .pricing-header {
@@ -114,3 +115,4 @@
 .pricing-button.is-featured:active {
   background-color: #269aff;
 }
+

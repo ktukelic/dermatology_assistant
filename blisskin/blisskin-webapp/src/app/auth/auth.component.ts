@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
+import {MonitoringService} from '../services/monitoring.service';
 
 @Component({
   selector: 'app-auth',
@@ -27,8 +29,8 @@ export class AuthComponent implements OnInit {
   onSignIn() {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
-      this.authService.login(username, password).subscribe(() => {
-          this.router.navigate(['/treatment']);
+      this.authService.login(username, password).subscribe(response => {
+          this.router.navigate(['/']);
         },
         error => {
           this.alertMessage = error.error.message;

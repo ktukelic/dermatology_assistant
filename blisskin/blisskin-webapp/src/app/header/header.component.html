@@ -7,11 +7,8 @@
   </button>
   <div class="collapse navbar-collapse " id="navbarNav">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" style="cursor: pointer;" routerLink="/treatment">Treatment</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="cursor: pointer;">Sign Out</a>
+      <li class="nav-item" *ngIf="isAuthenticated">
+        <a class="nav-link" style="cursor: pointer;" (click)="onLogout()">Sign Out</a>
       </li>
     </ul>
   </div>

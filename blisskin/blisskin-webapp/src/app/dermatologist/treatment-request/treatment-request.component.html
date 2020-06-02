@@ -1,27 +1,35 @@
 <div class="d-flex justify-content-around mb-5">
   <div class="column col-9 justify-content-between">
-    <div class="card z-depth-3 mb-4 col-12">
+    <div class="card shadow mb-4 col-12">
       <app-user-information
         (patientEvent)="onPatientChanged($event)"
         (otherInfoEvent)="onOtherUserInfoChanged($event)"
       ></app-user-information>
     </div>
-    <div class="card z-depth-3 col-12">
+    <div class="card shadow col-12">
       <app-skin-assessment
         [selectedSkinIssues]="selectedSkinIssues"
         [skinProperties]="skinProperties">
       </app-skin-assessment>
-      <div>
-        <button class="btn btn-block my-primary" (click)="onFindBestTreatment()" data-toggle="modal"
-                data-target="#treatmentResponseModal">Find
-          best treatment
-        </button>
+      <div class="row justify-content-center px-4">
+        <span class="col-6">
+          <button class="btn btn-block btn-outline-info" (click)="onFindIngredients()" data-toggle="modal"
+                  data-target="#ingredientsModal">
+            See ingredients for given skin issues
+          </button>
+        </span>
+        <span class="col-6">
+          <button class="btn btn-block btn-outline-success" (click)="onFindBestTreatment()" data-toggle="modal"
+                  data-target="#treatmentResponseModal">
+            Find best treatment
+          </button>
+        </span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Treatment response modal -->
 <div class="modal fade" id="treatmentResponseModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
      role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -43,8 +51,12 @@
         <ul *ngIf="treatmentResponse != null">
           <li>Hydration: {{treatmentResponse.hydration.ingredient.name}} - {{treatmentResponse.hydration.total}}</li>
           <li>Exfoliant: {{ treatmentResponse.exfoliant.ingredient.name}} - {{treatmentResponse.exfoliant.total}}</li>
-          <li>Antioxidant: {{treatmentResponse.antioxidant.ingredient.name}} - {{treatmentResponse.antioxidant.total}}</li>
-          <li>Skin restoring: {{treatmentResponse.skinRestoring.ingredient.name}} - {{treatmentResponse.skinRestoring.total}}</li>
+          <li>Antioxidant: {{treatmentResponse.antioxidant.ingredient.name}}
+            - {{treatmentResponse.antioxidant.total}}</li>
+          <li>Skin restoring: {{treatmentResponse.skinRestoring.ingredient.name}}
+            - {{treatmentResponse.skinRestoring.total}}</li>
+          <hr>
+          <li>Prescription drug: {{treatmentResponse.drug}}</li>
         </ul>
       </div>
       <div class="modal-footer">
@@ -55,3 +67,45 @@
   </div>
 </div>
 
+
+<!-- Ingredient list modal -->
+<div class="modal fade" id="ingredientsModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="ingredientModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ingredientModalLabel">Ingredients for selected skin issues</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center" *ngIf="loadingIngredients">
+          <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <table class="table" *ngIf="ingredientsMap != null">
+          <thead>
+          <tr>
+            <th scope="col">Ingredient name</th>
+            <th scope="col">Skin issues matched</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ingredient of ingredientsMap | keyvalue: asIsOrder">
+            <td>{{ingredient.key}}</td>
+            <td>{{ingredient.value}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn my-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>

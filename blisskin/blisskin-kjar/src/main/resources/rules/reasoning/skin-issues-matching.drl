@@ -20,6 +20,7 @@ rule "Group 1 - hydration" extends "Treatment requested"
     when
         $ingredient: Ingredient(ingredientGroup == IngredientGroup.HYDRATION,
                                 $ingrSkinIssues: targetedSkinIssues)
+        // none of the skin issues can be present
         $matchedSkinIssues: Number() from accumulate (
             SkinIssue(
                 name memberOf $patientSkinIssues
@@ -34,12 +35,11 @@ rule "Group 1 - hydration" extends "Treatment requested"
         insert(matchedIngredient);
 end
 
-// All skin issues must be present
+// More than 1 skin issue must be present
 rule "Group 2 - exfoliants" extends "Treatment requested"
     when
         $ingredient: Ingredient(ingredientGroup == IngredientGroup.EXFOLIANT,
                                         $ingrSkinIssues: targetedSkinIssues)
-//        $matchedSkinIssues: Number(intValue == $ingrSkinIssues.size()) from accumulate (
         $matchedSkinIssues: Number() from accumulate (
             SkinIssue(
                 name memberOf $patientSkinIssues
@@ -54,9 +54,7 @@ rule "Group 2 - exfoliants" extends "Treatment requested"
         insert(matchedIngredient);
 end
 
-// Last group, best combined. Skin properties not as important
 rule "Group 3 - antioxidants" extends "Treatment requested"
-salience -1
     when
         $ingredient: Ingredient(ingredientGroup == IngredientGroup.ANTIOXIDANT,
                                               $ingrSkinIssues: targetedSkinIssues)

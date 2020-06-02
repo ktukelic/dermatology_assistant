@@ -1,9 +1,10 @@
 package sbnz.blisskin.model.enumerations;
 
-public enum DrugType {
+public enum Drug {
     ANTIFUNGAL,
     RETINOID,
     ANTIBIOTIC,
     CORTICOSTEROID,
-    OTHER
+    OTHER,
+    NONE
 }

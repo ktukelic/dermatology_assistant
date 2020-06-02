@@ -1,0 +1,16 @@
+package rules.monitoring;
+dialect  "mvel"
+
+import sbnz.blisskin.monitoring.model.*;
+import sbnz.blisskin.monitoring.SkinMonitoringService;
+import java.util.List;
+
+global SkinMonitoringService service;
+
+rule "monitoring"
+agenda-group "skin-monitoring"
+    when
+        CloselySupervisedPatient()
+    then
+        service.notify("U been notified!");
+end

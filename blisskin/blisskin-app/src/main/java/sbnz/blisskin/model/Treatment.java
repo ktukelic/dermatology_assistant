@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.kie.api.definition.type.Role;
+import org.kie.api.definition.type.Timestamp;
+import sbnz.blisskin.model.enumerations.Drug;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +14,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name="Treatments")
+@Role(Role.Type.EVENT)
+@Timestamp("consultationDate")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,14 +32,22 @@ public class Treatment {
     @ManyToOne
     private Patient patient;
 
+    @Enumerated(EnumType.STRING)
+    private Drug prescriptionDrug;
+
     @ManyToMany
     private Set<Ingredient> recommendedIngredients;
 
-    @ManyToOne
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn
-    private PrescriptionDrug prescriptionDrug;
+    private Set<SkinIssue> treatedSkinIssues;
 
-//    @OneToMany
-//    @JoinColumn
-//    private Set<SkinIssue> treatedSkinIssues;
+    public boolean isIssueTreated(String skinIssueName) {
+        for(SkinIssue issue : treatedSkinIssues) {
+            if (issue.getName().equals(skinIssueName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

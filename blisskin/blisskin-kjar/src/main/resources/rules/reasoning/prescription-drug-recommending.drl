@@ -1,0 +1,113 @@
+package rules.reasoning;
+dialect  "mvel"
+
+import sbnz.blisskin.model.dto.*;
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
+import java.util.List;
+
+declare SeriousSkinIssue
+    name: String;
+end
+
+declare DrugRecommendation
+end
+
+rule "Patient currently has eczema and/or psoriasis"
+    when
+        TreatmentRequest($currentSkinIssues: skinIssues)
+        Number(intValue >= 1) from accumulate (
+            SkinIssue(name == "Eczema" || name == "Psoriasis") from $currentSkinIssues,
+            count(1)
+        )
+    then
+        insert(new SeriousSkinIssue(drools.getRule().getName()))
+end
+
+rule "Patient currently has blackheads and/or whiteheads"
+    when
+        TreatmentRequest($currentSkinIssues: skinIssues)
+        Number(intValue >= 1) from accumulate (
+            SkinIssue(name == "Blackheads" || name == "Whiteheads") from $currentSkinIssues,
+            count(1)
+        )
+    then
+        insert(new SeriousSkinIssue(drools.getRule().getName()))
+end
+
+rule "Patient currently has acne"
+    when
+        TreatmentRequest($currentSkinIssues: skinIssues)
+        Number(intValue >= 1) from accumulate (
+            SkinIssue(name == "Acne") from $currentSkinIssues,
+            count(1)
+        )
+    then
+        insert(new SeriousSkinIssue(drools.getRule().getName()))
+end
+
+// -----------------------------------------------------------------------
+rule "Recommend Antibiotics for eczema or psoriazis"
+    when
+        SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
+        Treatment($treatedSkinIssues: treatedSkinIssues, prescriptionDrug == Drug.NONE) over window:time(60d)
+        Number(intValue >= 1) from accumulate (
+            SkinIssue(name == "Eczema" || name == "Psoriasis") from $treatedSkinIssues,
+            count(1)
+        )
+        $response: TreatmentResponse()
+    then
+        System.out.println("Should prescribe antibiotics");
+        modify($response){setDrug(Drug.ANTIBIOTIC);}
+
+end
+
+rule "Recommend Corticosteroids for eczema or psoriazis"
+    when
+        SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
+        Number(intValue >= 2) from accumulate (
+            Treatment(
+                prescriptionDrug == Drug.ANTIBIOTIC,
+                isIssueTreated("Eczema"),
+                isIssueTreated("Psoriasis"))
+            over window:time(180d),
+            count(1)
+        )
+        $response: TreatmentResponse()
+    then
+        System.out.println("Should prescribe corticosteroids");
+        modify($response){setDrug(Drug.ANTIBIOTIC);}
+end
+
+rule "Recommend Antifungal drug for blackheads or whiteheads"
+    when
+        SeriousSkinIssue(name == "Patient currently has blackheads and/or whiteheads")
+        Number(intValue >= 2) from accumulate (
+            Treatment(
+//                prescriptionDrug == Drug.NONE,
+                isIssueTreated("Blackheads"),
+                isIssueTreated("Whiteheads"))
+            over window:time(120d),
+            count(1)
+        )
+        $response: TreatmentResponse()
+    then
+        System.out.println("Should prescribe antifungal drug");
+        modify($response){setDrug(Drug.ANTIBIOTIC);}
+end
+
+rule "Recommend Retinoids for acne"
+    when
+        SeriousSkinIssue(name == "Patient currently has acne")
+        Number(intValue >= 3) from accumulate (
+            Treatment(
+//                prescriptionDrug == Drug.NONE,
+                isIssueTreated("Acne"))
+            over window:time(240d),
+            count(1)
+        )
+        $response: TreatmentResponse()
+    then
+        System.out.println("Should prescribe retinoids");
+        modify($response){setDrug(Drug.ANTIBIOTIC);}
+end

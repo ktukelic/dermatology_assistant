@@ -6,10 +6,11 @@ import {SkinAssessmentComponent} from './treatment-request/skin-assessment/skin-
 import {MainPageComponent} from './main-page/main-page.component';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { IngredientsComponent } from './ingredients/ingredients.component';
 
 
 @NgModule({
-  declarations: [TreatmentRequestComponent, UserInformationComponent, SkinAssessmentComponent, MainPageComponent],
+  declarations: [TreatmentRequestComponent, UserInformationComponent, SkinAssessmentComponent, MainPageComponent, IngredientsComponent],
   imports: [
     CommonModule,
     RouterModule,

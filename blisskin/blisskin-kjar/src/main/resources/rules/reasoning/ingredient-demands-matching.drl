@@ -94,13 +94,12 @@ end
 rule "Age satisfied" extends "Ingredient matched"
     when
         Number(intValue >= 1) from accumulate (
-        // IngredientDemands su dodati na pocetku, kada se doda patient age
             IngredientDemand(name.contains("Patient age"), name memberOf $allDemandsName),
             count(1)
         )
     then
         System.out.println("AGE SATISFIED");
-        modify($matchedIngredient){setIngredientDemandsValue($matchedIngredient.getIngredientDemandsValue()+0.4);}
+        modify($matchedIngredient){setIngredientDemandsValue($matchedIngredient.getIngredientDemandsValue()+0.2);}
 end
 
 rule "Environmental impacts satisfied" extends "Ingredient matched"
@@ -112,6 +111,6 @@ rule "Environmental impacts satisfied" extends "Ingredient matched"
     then
         System.out.println("[ENV SATISFIED - " + $matchedIngredient.getIngredient().getName());
         modify($matchedIngredient){
-            setIngredientDemandsValue($matchedIngredient.getIngredientDemandsValue()+(0.4*$noOfSatisfiedImpacts));
+            setIngredientDemandsValue($matchedIngredient.getIngredientDemandsValue()+(0.2*$noOfSatisfiedImpacts));
         }
 end
