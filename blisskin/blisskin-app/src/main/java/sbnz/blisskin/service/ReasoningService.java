@@ -11,6 +11,7 @@ import sbnz.blisskin.model.Patient;
 import sbnz.blisskin.model.SkinIssue;
 import sbnz.blisskin.model.dto.TreatmentRequest;
 import sbnz.blisskin.model.dto.TreatmentResponse;
+import sbnz.blisskin.model.enumerations.Drug;
 import sbnz.blisskin.repository.IngredientRepository;
 import sbnz.blisskin.repository.UserRepository;
 
@@ -50,9 +51,6 @@ public class ReasoningService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
         patient.getPreviousTreatments().stream().forEach(kieSession::insert);
 
-        // ToDo ako bude moglo, ubaciti na neki nacin previous ingredient reactions
-        // potrebno ubaciti patient.previousIngredientReactions i napisati pravila
-
         kieSession.fireAllRules();
 
         // get treatment recommendation
@@ -61,6 +59,14 @@ public class ReasoningService {
         for (QueryResultsRow queryResult : results) {
             response = (TreatmentResponse) queryResult.get("$result");
         }
+
+        // get drug recommendation
+        Drug prescriptionDrug = null;
+        results = kieSession.getQueryResults("getDrugRecommendation");
+        for (QueryResultsRow queryResult : results) {
+            prescriptionDrug = (Drug) queryResult.get("$drug");
+        }
+        response.setDrug(prescriptionDrug);
         return response;
     }
 

@@ -4,15 +4,27 @@
   /* Set the background of the entire app */
   --my-background-color: #f7e5b0;
   --my-secondary: #eab0c3;
-  --my-primary: #ae93d9;
+  //--my-primary: #ae93d9;
+  --my-primary: #b493f7;
   --my-warning: #f19c0a;
   --my-accent: #ac4b04;
 }
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: rgb(234,176,195);
-  background: radial-gradient(circle, rgba(234,176,195,1) 0%, rgba(174,147,217,1) 100%);
+
+  //PURPLE
+  //background: rgb(234,176,195);
+  //background: radial-gradient(circle, rgba(234,176,195,1) 0%, rgba(174,147,217,1) 100%);
+
+  //background: rgb(245,247,250);
+  //background: radial-gradient(circle, rgba(245,247,250,1) 0%, rgba(195,207,226,1) 100%);
+
+  //background: rgb(253,252,251);
+  //background: radial-gradient(circle, rgba(253,252,251,1) 0%, rgba(226,209,195,1) 100%);
+
+  background: rgb(228,239,233);
+  background: radial-gradient(circle, rgba(228,239,233,1) 0%, rgba(147,165,207,1) 100%);
 }
 
 button.my-primary  {

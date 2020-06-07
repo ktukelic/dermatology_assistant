@@ -43,14 +43,15 @@
 
 
     <!-- TODO Dodati lep prikaz informacija o pacijentu -->
-    <div class="text-justify" *ngIf="patient !== null">
-      <p>First name: {{patient.firstName}}</p>
-      <p>Last name: {{patient.lastName}}</p>
-      <p>Username: {{patient.username}}</p>
-    </div>
+    <ul class="list-group text-justify mt-4" *ngIf="patient !== null">
+      <li class="list-group-item"><b>First name:</b> {{patient.firstName}}</li>
+      <li class="list-group-item"><b>Last name:</b> {{patient.lastName}}</li>
+      <li class="list-group-item"><b>Username:</b> {{patient.username}}</li>
+    </ul>
 
   </div>
 
+  <!-- ToDo prebaciti u drugu komponentu -->
   <div class="text-center p-5 col-6">
     <form [formGroup]="otherUserInfo" (change)="onOtherInfoChanged()">
       <p class="h4 mb-4 logo">Environmental impacts</p>
@@ -76,17 +77,17 @@
       </div>
     </form>
 
-    <div class="text-center" style="border: 1px solid lightgray; border-radius: 5px">
-      <p class="h4 mb-4 pt-3 logo">Previous ingredient reactions</p>
-      <div class="list-group">
-        <div class="inputGroup" *ngFor="let ingredient of ingredients">
-          <input [id]="ingredient.name" [name]="ingredient.name" type="checkbox" [value]="ingredient"/>
-          <!--                   (change)="$event.target.checked? selectedSkinIssues.push(skinIssue) : selectedSkinIssues.splice(selectedSkinIssues.indexOf(skinIssue))"/-->
+<!--    <div class="text-center" style="border: 1px solid lightgray; border-radius: 5px">-->
+<!--      <p class="h4 mb-4 pt-3 logo">Previous ingredient reactions</p>-->
+<!--      <div class="list-group">-->
+<!--        <div class="inputGroup" *ngFor="let ingredient of ingredients">-->
+<!--          <input [id]="ingredient.name" [name]="ingredient.name" type="checkbox" [value]="ingredient"/>-->
+<!--          &lt;!&ndash;                   (change)="$event.target.checked? selectedSkinIssues.push(skinIssue) : selectedSkinIssues.splice(selectedSkinIssues.indexOf(skinIssue))"/&ndash;&gt;-->
 
-          <label [for]="ingredient.name">{{ingredient.name}}</label>
-        </div>
-      </div>
-    </div>
+<!--          <label [for]="ingredient.name">{{ingredient.name}}</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
 </div>

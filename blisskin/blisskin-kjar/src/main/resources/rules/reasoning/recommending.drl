@@ -8,6 +8,7 @@ import java.util.List;
 
 rule "Find best matched hydration ingredient"
 salience -100
+no-loop
 when
     $mostProbable: MatchedIngredient() from accumulate(
         $matchedIngredient: MatchedIngredient(
@@ -31,6 +32,7 @@ end
 
 rule "Find best matched exfoliation ingredient"
 salience -100
+no-loop
 when
     $mostProbable: MatchedIngredient() from accumulate(
         $matchedIngredient: MatchedIngredient(
@@ -53,6 +55,7 @@ end
 
 rule "Find best matched antioxidant ingredient"
 salience -100
+no-loop
 when
     $mostProbable: MatchedIngredient() from accumulate(
         $matchedIngredient: MatchedIngredient(
@@ -75,6 +78,7 @@ end
 
 rule "Find best matched skin-restoring ingredient"
 salience -100
+no-loop
 when
     $mostProbable: MatchedIngredient() from accumulate(
         $matchedIngredient: MatchedIngredient(
@@ -111,6 +115,6 @@ then
 end
 
 query "getTreatmentResponse"
-    $result: TreatmentResponse(drug != null)
+    $result: TreatmentResponse()
 end
 

@@ -56,7 +56,7 @@
           <li>Skin restoring: {{treatmentResponse.skinRestoring.ingredient.name}}
             - {{treatmentResponse.skinRestoring.total}}</li>
           <hr>
-          <li>Prescription drug: {{treatmentResponse.drug}}</li>
+          <li>Prescription drug: {{ (treatmentResponse.drug !== null) ? treatmentResponse.drug : "-" }}</li>
         </ul>
       </div>
       <div class="modal-footer">

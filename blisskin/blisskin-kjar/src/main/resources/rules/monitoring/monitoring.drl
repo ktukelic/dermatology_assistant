@@ -2,15 +2,159 @@ package rules.monitoring;
 dialect  "mvel"
 
 import sbnz.blisskin.monitoring.model.*;
+import sbnz.blisskin.model.enumerations.Drug;
 import sbnz.blisskin.monitoring.SkinMonitoringService;
 import java.util.List;
 
 global SkinMonitoringService service;
 
-rule "monitoring"
-agenda-group "skin-monitoring"
+rule "Possible Steroid induced atrophy"
     when
-        CloselySupervisedPatient()
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.CORTICOSTEROID)
+
+        /* if purpura or bruising has been registered last 3 times */
+        Number(intValue >= 3) from accumulate(
+            SteroidPatientEvent(
+                patient.name == $patient.name,
+                $purpura: purpura,
+                $bruising: bruising
+            ) over window:length(3),
+            init(int count = 0;),
+            action(
+                if($purpura == true || $bruising == true) { count += 1; }
+            ),
+            result(count)
+        )
     then
-        service.notify("U been notified!");
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
+end
+
+rule "Possible Steroid rosacea"
+    when
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.CORTICOSTEROID)
+
+        /* if increased redness was accompanied by itching/burning has been registered last 4 times */
+        Number(intValue >= 4) from accumulate(
+            SteroidPatientEvent(
+                patient.name == $patient.name,
+                $itching: itching,
+                $burning: burning,
+                $redness: redness
+            ) over window:length(4),
+            init(int count = 0; int lastRednessValue = -1;),
+            action(
+                if (lastRednessValue == -1) {
+                    lastRednessValue = $redness;
+                    return;
+                }
+                if (($redness > lastRednessValue) ||
+                    ($redness == lastRednessValue && $redness > 3)) {
+                    if ($itching == true || $burning == true) {
+                        count += 1;
+                    }
+                }
+                lastRednessValue = $redness;
+            ),
+            result(count)
+        )
+    then
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
+end
+
+rule "Antifungal drug negative reaction - peeling"
+    when
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.ANTIFUNGAL)
+
+        /* if redness and/or peeling has not decreased last 6 times */
+        Number(intValue >= 6) from accumulate(
+            AntifungalPatientEvent(
+                patient.name == $patient.name,
+                $peeling: peeling,
+                $redness: redness
+            ) over window:length(6),
+            init(int count = 0; int lastRednessValue = -1;),
+            action(
+                if (lastRednessValue == -1) {
+                    lastRednessValue = $redness;
+                    return;
+                }
+                if (($redness > lastRednessValue) ||
+                    ($redness == lastRednessValue && $redness > 3)) {
+                    if ($peeling == true) {
+                        count += 1;
+                    }
+                }
+                lastRednessValue = $redness;
+            ),
+            result(count)
+        )
+    then
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
+end
+
+rule "Antifungal drug negative reaction - bumps"
+    when
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.ANTIFUNGAL)
+
+        /* if tiny pimple-like bumps are present last 4 time */
+        Number(intValue >= 4) from accumulate(
+            AntifungalPatientEvent(
+                patient.name == $patient.name,
+                $pimpleLikeBumps: pimpleLikeBumps
+            ) over window:length(4),
+            init(int count = 0;),
+            action(
+                if ($pimpleLikeBumps == true) { count += 1; }
+            ),
+            result(count)
+        )
+    then
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
+end
+
+rule "Possible photoallergy/phototoxicity - eczema appearance"
+    when
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.ANTIBIOTIC)
+
+        /* if eczema-like rash is present last 3 times */
+        Number(intValue >= 3) from accumulate(
+            AntibioticPatientEvent(
+                patient.name == $patient.name,
+                $eczemaLikeRash: eczemaLikeRash
+            ) over window:length(3),
+            init(int count = 0;),
+            action(
+                if ($eczemaLikeRash == true) { count += 1; }
+            ),
+            result(count)
+        )
+    then
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
+end
+
+rule "Possible photoallergy/phototoxicity - painful redness"
+    when
+        $patient: CloselySupervisedPatient(prescribedDrug == Drug.ANTIBIOTIC)
+
+        /* if painful redness is present last 3 times */
+        Number(intValue >= 3) from accumulate(
+            AntibioticPatientEvent(
+                patient.name == $patient.name,
+                $pain: pain,
+                $redness: redness
+            ) over window:length(3),
+            init(int count = 0;),
+            action(
+                if ($pain >= 3 && $redness >= 3) { count += 1; }
+            ),
+            result(count)
+        )
+    then
+        System.out.println(drools.getRule().getName());
+        service.notify($patient.getName(), drools.getRule().getName());
 end

@@ -11,6 +11,7 @@ declare SeriousSkinIssue
 end
 
 declare DrugRecommendation
+    drug: Drug;
 end
 
 rule "Patient currently has eczema and/or psoriasis"
@@ -48,6 +49,8 @@ end
 
 // -----------------------------------------------------------------------
 rule "Recommend Antibiotics for eczema or psoriazis"
+salience 3
+activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
         Treatment($treatedSkinIssues: treatedSkinIssues, prescriptionDrug == Drug.NONE) over window:time(60d)
@@ -58,11 +61,14 @@ rule "Recommend Antibiotics for eczema or psoriazis"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe antibiotics");
-        modify($response){setDrug(Drug.ANTIBIOTIC);}
+//        modify($response){setDrug(Drug.ANTIBIOTIC);}
+        insert(new DrugRecommendation(Drug.ANTIBIOTIC))
 
 end
 
 rule "Recommend Corticosteroids for eczema or psoriazis"
+salience 4
+activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
         Number(intValue >= 2) from accumulate (
@@ -76,10 +82,13 @@ rule "Recommend Corticosteroids for eczema or psoriazis"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe corticosteroids");
-        modify($response){setDrug(Drug.ANTIBIOTIC);}
+//        modify($response){setDrug(Drug.CORTICOSTEROID);}
+        insert(new DrugRecommendation(Drug.CORTICOSTEROID))
 end
 
 rule "Recommend Antifungal drug for blackheads or whiteheads"
+salience 1
+activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has blackheads and/or whiteheads")
         Number(intValue >= 2) from accumulate (
@@ -93,10 +102,13 @@ rule "Recommend Antifungal drug for blackheads or whiteheads"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe antifungal drug");
-        modify($response){setDrug(Drug.ANTIBIOTIC);}
+//        modify($response){setDrug(Drug.ANTIFUNGAL);}
+        insert(new DrugRecommendation(Drug.ANTIFUNGAL))
 end
 
 rule "Recommend Retinoids for acne"
+salience 2
+activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has acne")
         Number(intValue >= 3) from accumulate (
@@ -109,5 +121,10 @@ rule "Recommend Retinoids for acne"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe retinoids");
-        modify($response){setDrug(Drug.ANTIBIOTIC);}
+//        modify($response){setDrug(Drug.RETINOID);}
+        insert(new DrugRecommendation(Drug.RETINOID))
+end
+
+query "getDrugRecommendation"
+    DrugRecommendation($drug: drug)
 end

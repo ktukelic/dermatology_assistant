@@ -1,0 +1,18 @@
+template header
+
+name
+lhs
+rhs
+
+package rules.templates;
+
+template "rule-template"
+
+rule "rule_@{row.rowNumber}"
+when
+    @{lhs}
+then
+    @{rhs}
+end
+
+end template

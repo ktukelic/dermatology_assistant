@@ -1,22 +1,30 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import Swal from 'sweetalert2';
-import {MonitoringService} from '../services/monitoring.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
-
+export class AuthComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   showAlert = false;
   alertMessage: string;
 
+  userSub: Subscription;
+  role = null;
+
   constructor(private authService: AuthService, private router: Router) {
+    this.userSub = this.authService.user.subscribe(user => {
+      if (!!user) {
+        this.role = user.authority;
+      } else {
+        this.role = null;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -30,13 +38,18 @@ export class AuthComponent implements OnInit {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
       this.authService.login(username, password).subscribe(response => {
-          this.router.navigate(['/']);
+          if (this.role === 'DERMATOLOGIST') { this.router.navigate(['/']); }
+          else if (this.role === 'ADMIN') { this.router.navigate(['/admin']); }
         },
         error => {
-          this.alertMessage = error.error.message;
+          this.alertMessage = error.error;
           this.showAlert = true;
         });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 
 

@@ -10,6 +10,7 @@ import sbnz.blisskin.model.*;
 import sbnz.blisskin.model.enumerations.Assessment;
 import sbnz.blisskin.model.enumerations.Drug;
 import sbnz.blisskin.model.enumerations.IngredientGroup;
+import sbnz.blisskin.model.enumerations.Role;
 import sbnz.blisskin.repository.*;
 
 import java.util.Calendar;
@@ -48,7 +49,8 @@ public class DbInitializer implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         this.skinIssueRepository.deleteAll();
 
-        final Dermatologist dermatologist = userRepository.save(new Dermatologist("derm", passwordEncoder.encode("derm"))); // derm
+        final Dermatologist dermatologist = userRepository.save(new Dermatologist("derm", passwordEncoder.encode("derm")));
+        final Admin admin = userRepository.save(new Admin("admin", passwordEncoder.encode("admin")));
 
         final SkinIssue ACNE = skinIssueRepository.save(new SkinIssue("Acne"));
         final SkinIssue BLACKHEADS = skinIssueRepository.save(new SkinIssue("Blackheads"));

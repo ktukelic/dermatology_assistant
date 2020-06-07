@@ -22,8 +22,7 @@ export class DermatologistAuthGuard implements CanActivate {
           return this.router.createUrlTree(['/login']);
         } else if (isAuth && user.authority !== 'DERMATOLOGIST') {
           return this.router.createUrlTree(['/']);
-        }
-        else if (isAuth && user.authority === 'DERMATOLOGIST'){
+        } else if (isAuth && user.authority === 'DERMATOLOGIST') {
           return true;
         }
       }));
@@ -46,10 +45,10 @@ export class AdminAuthGuard implements CanActivate {
         const isAuth = !!user;
         if (!isAuth) {
           return this.router.createUrlTree(['/login']);
+        } else if (isAuth && user.authority !== 'ADMIN') {
+          return this.router.createUrlTree(['/']);
         } else if (isAuth && user.authority === 'ADMIN') {
           return true;
-        } else {
-          return this.router.createUrlTree(['/']);
         }
       }));
   }

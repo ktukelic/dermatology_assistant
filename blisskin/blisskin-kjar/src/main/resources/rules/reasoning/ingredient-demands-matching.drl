@@ -103,6 +103,7 @@ rule "Age satisfied" extends "Ingredient matched"
 end
 
 rule "Environmental impacts satisfied" extends "Ingredient matched"
+no-loop
     when
         $noOfSatisfiedImpacts: Number(intValue >= 1) from accumulate (
             IngredientDemand(name.contains("Environmental impact"), name memberOf $allDemandsName),

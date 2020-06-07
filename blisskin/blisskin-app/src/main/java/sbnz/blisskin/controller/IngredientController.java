@@ -2,14 +2,13 @@ package sbnz.blisskin.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import sbnz.blisskin.service.IngredientService;
 import sbnz.blisskin.service.ReasoningService;
 
 @RestController
+@PreAuthorize("hasAuthority('DERMATOLOGIST')")
 @RequestMapping("/api/ingredients")
 public class IngredientController {
 
@@ -30,4 +29,9 @@ public class IngredientController {
     public ResponseEntity findIngredientInformation(@PathVariable("id") Long id) {
         return new ResponseEntity(reasoningService.findIngredientInformation(id), HttpStatus.OK);
     }
+
+    // ToDo create Ingredient
+    // ToDo update Ingredient
+    // ToDo delete Ingredient
+
 }

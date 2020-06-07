@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sbnz.blisskin.model.enumerations.Drug;
 
 @Getter
 @Setter
@@ -12,4 +13,5 @@ import lombok.Setter;
 public class CloselySupervisedPatient {
 
     private String name;
+    private Drug prescribedDrug;
 }

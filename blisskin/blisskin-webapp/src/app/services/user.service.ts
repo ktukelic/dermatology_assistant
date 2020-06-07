@@ -8,13 +8,14 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+  private readonly createPatientPath = `http://localhost:${PORT}/api/users/patient`;
   private readonly patientPath = `http://localhost:${PORT}/api/users`;
 
   constructor(private http: HttpClient) {
   }
 
   createPatient(patient: Patient): Observable<Patient> {
-    return this.http.post(this.patientPath, patient);
+    return this.http.post(this.createPatientPath, patient);
   }
 
   findPatient(username: string): Observable<Patient> {
