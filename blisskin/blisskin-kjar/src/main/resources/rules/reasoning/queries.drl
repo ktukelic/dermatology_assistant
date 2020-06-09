@@ -1,6 +1,9 @@
 package rules.reasoning;
 dialect  "mvel"
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
 
+/* Ingredient queries */
 query "Get ingredients for given skin issues"
     $skinIssues: List() from collect (SkinIssue())
     $skinIssueNames: List() from accumulate (
@@ -18,4 +21,51 @@ end
 
 query "Get ingredient information" (Long ingredientId)
     $ingredient: Ingredient(id == ingredientId)
+end
+
+/* Report queries */
+query "Get patients with more serious skin issues" (Drug drugType)
+    /* patient has been prescribed a drug in the last year more than 2 times */
+    $patient: Patient($treatments: previousTreatments)
+    Number(intValue >= 2) from accumulate (
+        Treatment(
+            prescriptionDrug == drugType,
+            wasPrescribedInTimespan(365)
+        )
+        from $treatments,
+        count(1)
+    )
+end
+
+query "Get patients with possible TSW"
+    $patient: Patient($treatments: previousTreatments)
+
+    /* patient has been prescribed corticosteroids minimum 3 times in the last year */
+    $list: List(size >= 3) from accumulate (
+        $t: Treatment(
+            prescriptionDrug == Drug.CORTICOSTEROID,
+            wasPrescribedInTimespan(365)
+        )
+        from $treatments,
+        collectList($t)
+    )
+
+    /* get date of last treatment out of filtered treatments */
+    $maxDate: Treatment() from accumulate(
+        Treatment($date: consultationDate) from $list,
+        max($date)
+    )
+    $lastSteroidTreatment: Treatment(consultationDate == $maxDate) from $list
+
+    /* find if any treatment after has redness, swelling or burning in treated skin issues */
+    $no: Number(intValue >= 1) from accumulate(
+        Treatment(
+            this after $lastSteroidTreatment,
+            (isIssueTreated("Redness") ||
+            isIssueTreated("Swelling") ||
+            isIssueTreated("Burning"))
+        ) from $treatments,
+        count(1)
+    )
+
 end

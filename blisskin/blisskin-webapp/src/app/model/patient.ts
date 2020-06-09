@@ -4,4 +4,5 @@ export interface Patient {
   username?: string;
   password?: string;
   age?: number;
+  previousTreatments?: any[];
 }

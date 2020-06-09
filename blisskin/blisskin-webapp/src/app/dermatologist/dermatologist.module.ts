@@ -7,10 +7,11 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IngredientsComponent} from './ingredients/ingredients.component';
 import {MainPageComponent} from './main-page/main-page.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 @NgModule({
-  declarations: [MainPageComponent, TreatmentRequestComponent, UserInformationComponent, SkinAssessmentComponent, IngredientsComponent ],
+  declarations: [MainPageComponent, TreatmentRequestComponent, UserInformationComponent, SkinAssessmentComponent, IngredientsComponent, ReportsComponent ],
   imports: [
     CommonModule,
     RouterModule,

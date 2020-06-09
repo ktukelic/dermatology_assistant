@@ -9,10 +9,13 @@ import sbnz.blisskin.exceptions.NotFoundException;
 import sbnz.blisskin.model.Ingredient;
 import sbnz.blisskin.model.Patient;
 import sbnz.blisskin.model.SkinIssue;
+import sbnz.blisskin.model.Treatment;
+import sbnz.blisskin.model.dto.ReportResponse;
 import sbnz.blisskin.model.dto.TreatmentRequest;
 import sbnz.blisskin.model.dto.TreatmentResponse;
 import sbnz.blisskin.model.enumerations.Drug;
 import sbnz.blisskin.repository.IngredientRepository;
+import sbnz.blisskin.repository.PatientRepository;
 import sbnz.blisskin.repository.UserRepository;
 
 import java.util.*;
@@ -25,17 +28,18 @@ public class ReasoningService {
     private final KieSession kieSession;
     private final IngredientRepository ingredientRepository;
     private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
 
-    public ReasoningService(@Qualifier("reasoning") KieSession kieSession, IngredientRepository ingredientRepository, UserRepository userRepository) {
+    public ReasoningService(KieSession kieSession, IngredientRepository ingredientRepository, UserRepository userRepository, PatientRepository patientRepository) {
         this.kieSession = kieSession;
         this.ingredientRepository = ingredientRepository;
         this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
     }
 
     public void initializeSession() {
 //        kieSession.addEventListener(new DebugAgendaEventListener());
 
-        // insert initial facts
         List<Ingredient> ingredients = ingredientRepository.findAll();
         ingredients.stream().forEach(kieSession::insert);
     }
@@ -43,7 +47,6 @@ public class ReasoningService {
     public TreatmentResponse findBestTreatment(TreatmentRequest treatmentRequest) {
         initializeSession();
 
-        // insert patient facts
         kieSession.insert(treatmentRequest);
 
         // insert patient treatments
@@ -103,4 +106,33 @@ public class ReasoningService {
 
         return foundIngredient;
     }
+
+    public ReportResponse getReports(Drug drugType) {
+        List<Patient> l = patientRepository.findAll();
+        patientRepository.findAll().stream().forEach(kieSession::insert);
+
+        final ReportResponse reportResponse = new ReportResponse();
+        reportResponse.setPatientsWithSeriousSkinIssues(getSeriousPatientsReport(drugType));
+        reportResponse.setPatientsWithPossibleTSW(getPossibleSteroidAddicts());
+        return reportResponse;
+    }
+
+    private List<Patient> getSeriousPatientsReport(Drug drugType) {
+        List<Patient> patientsWithSeriousSkinIssues = new ArrayList<>();
+        QueryResults results = kieSession.getQueryResults("Get patients with more serious skin issues", drugType);
+        for (QueryResultsRow queryResult : results) {
+            patientsWithSeriousSkinIssues.add((Patient) queryResult.get("$patient"));
+        }
+        return patientsWithSeriousSkinIssues;
+    }
+
+    private List<Patient> getPossibleSteroidAddicts() {
+        List<Patient> patientsWithPossibleTSW = new ArrayList<>();
+        QueryResults results = kieSession.getQueryResults("Get patients with possible TSW");
+        for (QueryResultsRow queryResult : results) {
+            patientsWithPossibleTSW.add((Patient) queryResult.get("$patient"));
+        }
+        return patientsWithPossibleTSW;
+    }
+
 }

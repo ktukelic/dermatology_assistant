@@ -20,7 +20,7 @@ public class AdminService {
 
     private final KieSession kieSession;
 
-    public AdminService(@Qualifier("reasoning") KieSession kieSession) {
+    public AdminService(KieSession kieSession) {
         this.kieSession = kieSession;
     }
 

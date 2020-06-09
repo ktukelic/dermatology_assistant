@@ -11,6 +11,7 @@ export class UserService {
   private readonly createPatientPath = `http://localhost:${PORT}/api/users/patient`;
   private readonly patientPath = `http://localhost:${PORT}/api/users`;
 
+
   constructor(private http: HttpClient) {
   }
 
@@ -22,4 +23,6 @@ export class UserService {
     const httpParams = new HttpParams().set('username', username);
     return this.http.get(this.patientPath, {params: httpParams});
   }
+
+
 }

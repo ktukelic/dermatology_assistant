@@ -47,7 +47,6 @@ export class TreatmentRequestComponent implements OnInit {
     this.treatmentService.findBestTreatment(this.treatmentRequest).subscribe(response => {
       this.treatmentResponse = response;
       this.loading = false;
-      console.log(response);
     });
   }
 

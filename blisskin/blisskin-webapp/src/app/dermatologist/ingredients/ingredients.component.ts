@@ -23,7 +23,7 @@ export class IngredientsComponent implements OnInit {
   onGetIngredientInfo(ingredientId) {
     this.ingredientsService.findOneById(ingredientId).subscribe(response => {
       this.selectedIngredient = response;
-      console.log(response);
+      console.log(this.selectedIngredient)
     });
   }
 

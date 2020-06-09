@@ -41,9 +41,11 @@ public class KieConfig {
         return kieContainer;
     }
 
-    @Bean(name = "reasoning")
+    @Bean
     @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
     public KieSession kieSession(KieContainer kieContainer) {
         return kieContainer.newKieSession("reasoning-session");
     }
+
+
 }

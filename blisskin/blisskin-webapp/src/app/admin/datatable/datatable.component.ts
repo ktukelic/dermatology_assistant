@@ -12,10 +12,11 @@ export class DatatableComponent implements OnInit {
 
   ngOnInit(): void {
     this.dtOptions = {
-      pagingType: 'simple',
       searching: false,
       paging: true,
-      scrollY: '200'
+      scrollY: '200',
+      info: false,
+      lengthChange: false
     };
   }
 

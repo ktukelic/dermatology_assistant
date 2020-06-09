@@ -1,15 +1,16 @@
 package sbnz.blisskin.monitoring;
 
 import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import sbnz.blisskin.model.enumerations.Drug;
 import sbnz.blisskin.monitoring.model.AntibioticPatientEvent;
 import sbnz.blisskin.monitoring.model.AntifungalPatientEvent;
 import sbnz.blisskin.monitoring.model.CloselySupervisedPatient;
 import sbnz.blisskin.monitoring.model.SteroidPatientEvent;
-import sbnz.blisskin.util.DebugAgendaEventListener;
 
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public class SkinMonitoringService {
         this.kieSession = kieSession;
         this.template = template;
 
-        kieSession.addEventListener(new DebugAgendaEventListener());
+//        kieSession.addEventListener(new DebugAgendaEventListener());
         kieSession.setGlobal("service", this);
 
         patient1 = new CloselySupervisedPatient("Patient 1", Drug.CORTICOSTEROID);
@@ -42,7 +43,7 @@ public class SkinMonitoringService {
         random = new Random(System.currentTimeMillis());
     }
 
-    //    @Scheduled(fixedDelay = 5000)
+//    @Scheduled(fixedDelay = 5000)
     public void run() {
         steroidsSkinAtrophy(patient1);      // Tested
         steroidsRosacea(patient1);

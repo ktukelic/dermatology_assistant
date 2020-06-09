@@ -1,0 +1,53 @@
+<div class="row col-12 justify-content-center">
+  <div class="card shadow pt-3 col-5 mx-4">
+    <div class="card-title row">
+      <h4 class="logo col-9">Patients with serious skin issues</h4>
+      <span class="col-3">
+        <select class="form-control form-control-sm" (change)="onDrugChanged()" [(ngModel)]="selectedDrug">
+          <option ngValue="ANTIFUNGAL" selected>ANTIFUNGAL</option>
+          <option ngValue="RETINOID">RETINOID</option>
+          <option ngValue="ANTIBIOTIC">ANTIBIOTIC</option>
+          <option ngValue="CORTICOSTEROID">CORTICOSTEROID</option>
+          <option ngValue="OTHER">OTHER</option>
+        </select>
+      </span>
+    </div>
+    <div class="outer">
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Full name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let patient of patientsWithSeriousSkinIssues;">
+          <th scope="row">{{ patient.username }}</th>
+          <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+          <!-- ToDo prikazi skin issues od terapija u kojima je koriscen trazeni lek -->
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card shadow pt-3 col-5 mx-4">
+    <div class="card-title"><h4 class="logo">Patients with possible TSW</h4></div>
+    <div class="outer">
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Full name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let patient of patientsWithPossibleTSW;">
+          <th scope="row">{{patient.username}}</th>
+          <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

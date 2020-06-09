@@ -12,3 +12,12 @@ export enum Assessment {
   NORMAL,
   HIGH
 }
+
+export enum Drug {
+  ANTIFUNGAL,
+  RETINOID,
+  ANTIBIOTIC,
+  CORTICOSTEROID,
+  OTHER,
+  NONE
+}

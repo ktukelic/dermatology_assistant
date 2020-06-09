@@ -9,8 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class BlisskinApp {
 
-	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(BlisskinApp.class, args);
-	}
+	public static void main(String[] args) { ApplicationContext ctx = SpringApplication.run(BlisskinApp.class, args); }
 
 }

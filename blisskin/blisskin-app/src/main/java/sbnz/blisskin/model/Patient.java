@@ -22,7 +22,7 @@ public class Patient extends User {
     private Integer age;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
+//    @JsonIgnore
     private Set<Treatment> previousTreatments;
 
     @OneToMany(cascade = CascadeType.ALL)

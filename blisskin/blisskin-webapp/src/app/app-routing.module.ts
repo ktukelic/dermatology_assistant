@@ -7,6 +7,7 @@ import {AdminAuthGuard, DermatologistAuthGuard} from './auth/auth.guard';
 import {IngredientsComponent} from './dermatologist/ingredients/ingredients.component';
 import {AdminDashboardComponent} from './admin/admin-dashboard.component';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {ReportsComponent} from './dermatologist/reports/reports.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'main', component: MainPageComponent, canActivate: [DermatologistAuthGuard]},
   { path: 'treatment', component: TreatmentRequestComponent, canActivate: [DermatologistAuthGuard]},
   { path: 'ingredients', component: IngredientsComponent, canActivate: [DermatologistAuthGuard]},
-  { path: 'admin', component: AdminDashboardComponent/*, canActivate: [AdminAuthGuard]*/},
+  { path: 'reports', component: ReportsComponent, canActivate: [DermatologistAuthGuard]},
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [AdminAuthGuard]},
   { path: 'not-found', component: NotFoundComponent},
   { path: '**', redirectTo: '/not-found'},
 ];
