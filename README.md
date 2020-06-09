@@ -2,3 +2,6 @@
 <p align="center">
 A rule-based expert system for dermatological assistance developed during the Knowledge-Based Systems university course.  
 </p>
+<hr/>
+
+Project specification can be found [here](docs/SpecifikacijaProjekta.docx).
