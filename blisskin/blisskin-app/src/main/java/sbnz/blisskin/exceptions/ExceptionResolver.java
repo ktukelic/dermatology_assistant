@@ -27,4 +27,9 @@ public class ExceptionResolver {
     public ResponseEntity handleForbiddenException(ForbiddenException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleAnyException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

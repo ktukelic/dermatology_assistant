@@ -100,6 +100,10 @@ public class DbInitializer implements CommandLineRunner {
             add(FLAKINESS);
             add(FINE_LINES);
         }});
+        ceramides.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(MATURE);
+        }});
         ingredientRepository.save(ceramides);
 
         final Ingredient hyaluronicAcid = new Ingredient("Hyaluronic Acid", IngredientGroup.HYDRATION);
@@ -110,12 +114,16 @@ public class DbInitializer implements CommandLineRunner {
             add(DRYNESS);
             add(INFLAMMATION);
         }});
+        hyaluronicAcid.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(HIGH_HUMIDITY);
+        }});
         ingredientRepository.save(hyaluronicAcid);
 
         final Ingredient glycerin = new Ingredient("Glycerin", IngredientGroup.HYDRATION);
-        SkinProperties skinProperties1 = new SkinProperties();
-        skinProperties1.setSebum(Assessment.HIGH);
-        glycerin.setNotRecommendedSkinProperties(skinProperties1);
+        SkinProperties skinProperties = new SkinProperties();
+        skinProperties.setSebum(Assessment.HIGH);
+        glycerin.setNotRecommendedSkinProperties(skinProperties);
         glycerin.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(DRYNESS);
             add(FLAKINESS);
@@ -136,10 +144,15 @@ public class DbInitializer implements CommandLineRunner {
             add(DARK_SPOTS);
             add(SKIN_TEXTURE);
         }});
+        lacticAcid.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(HIGH_SUN_EXPOSURE);
+        }});
         ingredientRepository.save(lacticAcid);
 
         final Ingredient glycolicAcid = new Ingredient("Glycolic acid", IngredientGroup.EXFOLIANT);
-        glycolicAcid.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setSensitivity(Assessment.HIGH);
+        glycolicAcid.setNotRecommendedSkinProperties(skinProperties);
         glycolicAcid.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(FINE_LINES);
             add(WRINKLES);
@@ -148,10 +161,16 @@ public class DbInitializer implements CommandLineRunner {
             add(SKIN_TEXTURE);
             add(ENLARGED_PORES);
         }});
+        glycolicAcid.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(MATURE);
+        }});
         ingredientRepository.save(glycolicAcid);
 
         final Ingredient salicylicAcid = new Ingredient("Salicylic acid", IngredientGroup.EXFOLIANT);
-        salicylicAcid.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setMoisture(Assessment.LOW);
+        salicylicAcid.setNotRecommendedSkinProperties(skinProperties);
         salicylicAcid.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(BLACKHEADS);
             add(WHITEHEADS);
@@ -159,16 +178,24 @@ public class DbInitializer implements CommandLineRunner {
             add(ENLARGED_PORES);
             add(CLOGGED_PORES);
         }});
+        salicylicAcid.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(YOUNG);
+        }});
         ingredientRepository.save(salicylicAcid);
 
         final Ingredient benzoylPeroxide = new Ingredient("Benzoyl Peroxide", IngredientGroup.EXFOLIANT);
-        benzoylPeroxide.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setMoisture(Assessment.LOW);
+        skinProperties.setSensitivity(Assessment.HIGH);
+        benzoylPeroxide.setNotRecommendedSkinProperties(skinProperties);
         benzoylPeroxide.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(ACNE);
             add(INFLAMMATION);
             add(ENLARGED_PORES);
         }});
         benzoylPeroxide.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(YOUNG);
+            add(ADULT);
             add(LOW_SUN_EXPOSURE);
         }});
         ingredientRepository.save(benzoylPeroxide);
@@ -185,7 +212,9 @@ public class DbInitializer implements CommandLineRunner {
         ingredientRepository.save(vitaminE);
 
         final Ingredient vitaminC = new Ingredient("Vitamin C", IngredientGroup.ANTIOXIDANT);
-        vitaminC.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setSensitivity(Assessment.HIGH);
+        vitaminC.setNotRecommendedSkinProperties(skinProperties);
         vitaminC.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(FINE_LINES);
             add(SCARRING);
@@ -194,6 +223,10 @@ public class DbInitializer implements CommandLineRunner {
             add(HYPERPIGMENTATION);
             add(DARK_SPOTS);
             add(SUN_DAMAGE);
+        }});
+        vitaminC.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(HIGH_SUN_EXPOSURE);
         }});
         ingredientRepository.save(vitaminC);
 
@@ -209,16 +242,24 @@ public class DbInitializer implements CommandLineRunner {
 
         // Skin restoring
         final Ingredient hydroquinone = new Ingredient("Hydroquinone", IngredientGroup.SKIN_RESTORING);
-        hydroquinone.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setSensitivity(Assessment.HIGH);
+        hydroquinone.setNotRecommendedSkinProperties(skinProperties);
         hydroquinone.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(HYPERPIGMENTATION);
             add(DARK_SPOTS);
             add(AGE_SPOTS);
         }});
+        hydroquinone.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(MATURE);
+            add(LOW_HUMIDITY);
+        }});
         ingredientRepository.save(hydroquinone);
 
         final Ingredient retinol = new Ingredient("Retinol", IngredientGroup.SKIN_RESTORING);
-        retinol.setNotRecommendedSkinProperties(new SkinProperties());
+        skinProperties = new SkinProperties();
+        skinProperties.setSensitivity(Assessment.HIGH);
+        retinol.setNotRecommendedSkinProperties(skinProperties);
         retinol.setTargetedSkinIssues(new HashSet<SkinIssue>() {{
             add(ACNE);
             add(FINE_LINES);
@@ -227,6 +268,11 @@ public class DbInitializer implements CommandLineRunner {
             add(CLOGGED_PORES);
             add(SCARRING);
             add(SUN_DAMAGE);
+        }});
+        retinol.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(MATURE);
+            add(LOW_SUN_EXPOSURE);
         }});
         ingredientRepository.save(retinol);
 
@@ -241,12 +287,16 @@ public class DbInitializer implements CommandLineRunner {
             add(HYPERPIGMENTATION);
             add(SUN_DAMAGE);
         }});
+        niacinamide.setIngredientDemands(new HashSet<IngredientDemand>() {{
+            add(ADULT);
+            add(HIGH_SUN_EXPOSURE);
+        }});
         ingredientRepository.save(niacinamide);
 
 
         // patients
-        final Patient patient = new Patient("Katarina", "Tukelic", "kaca", passwordEncoder.encode("kaca"), 23);  // kaca
-        final Patient patient2 = new Patient("Teodora", "Tukelic", "doja", passwordEncoder.encode("doja"), 22);  // kaca
+        final Patient patient = new Patient("Katarina", "Tukelic", "kaca", passwordEncoder.encode("kaca"), 23);
+        final Patient patient2 = new Patient("Teodora", "Tukelic", "doja", passwordEncoder.encode("doja"), 22);
 
         // treatment in last 2 months with eczema or psoriazis, no drugs prescribed --------------------------------------------------------
         Set<Ingredient> recommendedIngredients = new HashSet<Ingredient>() {{

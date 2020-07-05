@@ -29,4 +29,8 @@ public class SkinIssueService {
         return skinIssueRepository.save(skinIssue);
     }
 
+    public void delete(Long id) {
+        skinIssueRepository.delete(findById(id));
+    }
+
 }

@@ -23,9 +23,12 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ToDo find all users (for admin)
-
     @GetMapping
+    public ResponseEntity findAll() {
+        return new ResponseEntity(userService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/patient")
     public ResponseEntity findPatient(@RequestParam("username") String username) {
         Patient patient = (Patient) userService.findByUsername(username);
         return new ResponseEntity(patient, HttpStatus.OK);

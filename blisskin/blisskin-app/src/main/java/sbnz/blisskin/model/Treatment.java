@@ -43,7 +43,7 @@ public class Treatment {
     @ManyToMany
     private Set<Ingredient> recommendedIngredients;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn
     private Set<SkinIssue> treatedSkinIssues;
 

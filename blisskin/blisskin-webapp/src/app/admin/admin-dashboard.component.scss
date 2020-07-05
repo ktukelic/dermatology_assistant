@@ -1,0 +1,26 @@
+.outer {
+  overflow-y: auto;
+  min-height: 250px;
+  max-height: 400px;
+}
+
+.outer {
+  width: 100%;
+  -layout: fixed;
+}
+
+.outer .card-body th {
+  text-align: left;
+  top: 0;
+  position: sticky;
+}
+
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 50px;
+  font-size: 20px;
+  height: 700px;
+}
+

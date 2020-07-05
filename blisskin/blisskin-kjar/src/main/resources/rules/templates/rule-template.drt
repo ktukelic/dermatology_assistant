@@ -6,6 +6,11 @@ rhs
 
 package rules.templates;
 
+import sbnz.blisskin.model.dto.*;
+import sbnz.blisskin.model.enumerations.*;
+import sbnz.blisskin.model.*;
+import java.util.List;
+
 template "rule-template"
 
 rule "rule_@{row.rowNumber}"

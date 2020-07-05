@@ -5,18 +5,39 @@
         <p class="h4 mb-4 logo">All ingredients</p>
         <hr>
         <div class="list-group list-group-flush" *ngFor="let ingredient of ingredients; let i = index;">
-          <button type="button" class="list-group-item list-group-item-action" (click)="onGetIngredientInfo(ingredient.id)">
+          <button type="button" class="list-group-item list-group-item-action"
+                  (click)="onGetIngredientInfo(ingredient.id)">
             {{ingredient.name}}
           </button>
         </div>
       </div>
 
-      <div class="text-center p-5 col-6">
-        <p class="h4 mb-4 logo">Ingredient information</p>
+      <div class="p-5 col-6">
+        <p class="text-center h4 mb-4 logo">Ingredient information</p>
         <hr>
         <div *ngIf="selectedIngredient !== null">
-          <h5>{{selectedIngredient.name}} [{{selectedIngredient.ingredientGroup | uppercase}}]</h5>
-          <p></p>
+          <h5 class="text-center mb-4">{{selectedIngredient.name}}</h5>
+          <ul class="list-group">
+            <li class="list-group-item">{{selectedIngredient.ingredientGroup | uppercase}}</li>
+            <li class="list-group-item"><h6>Targeted skin issues:</h6>
+              <ul>
+                <li *ngFor="let skinIssue of selectedIngredient.targetedSkinIssues">{{skinIssue.name}}</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><h6>Not recommended for:</h6>
+              <ul>
+                <li *ngIf="selectedIngredient.notRecommendedSkinProperties.moisture !== null">Moisture: {{selectedIngredient.notRecommendedSkinProperties.moisture}}</li>
+                <li *ngIf="selectedIngredient.notRecommendedSkinProperties.sebum !== null">Sebum: {{selectedIngredient.notRecommendedSkinProperties.sebum}}</li>
+                <li *ngIf="selectedIngredient.notRecommendedSkinProperties.sensitivity !== null">Sensitivity: {{selectedIngredient.notRecommendedSkinProperties.sensitivity}}</li>
+              </ul>
+            </li>
+            <li class="list-group-item" *ngIf="selectedIngredient.ingredientDemands.length > 0"><h6>Ingredient demands:</h6>
+              <ul>
+                <li *ngFor="let demand of selectedIngredient.ingredientDemands">{{demand.name}}</li>
+              </ul>
+            </li>
+          </ul>
+
         </div>
       </div>
     </div>

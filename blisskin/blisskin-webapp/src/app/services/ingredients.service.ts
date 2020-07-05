@@ -14,8 +14,8 @@ export class IngredientsService {
   constructor(private http: HttpClient) {
   }
 
-  findAll(): Observable<any> {
-    return this.http.get(this.findAllPath);
+  findAll(): Observable<Ingredient[]> {
+    return this.http.get<Ingredient[]>(this.findAllPath);
   }
 
   findOneById(id: number): Observable<any> {

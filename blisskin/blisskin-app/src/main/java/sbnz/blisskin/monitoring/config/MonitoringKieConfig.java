@@ -12,7 +12,6 @@ public class MonitoringKieConfig {
     @Bean(name = "monitoring")
     @Scope
     public KieSession kieSession(KieContainer kieContainer) {
-
         return kieContainer.newKieSession("monitoring-session");
     }
 

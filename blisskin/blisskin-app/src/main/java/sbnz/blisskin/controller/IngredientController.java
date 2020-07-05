@@ -8,7 +8,6 @@ import sbnz.blisskin.service.IngredientService;
 import sbnz.blisskin.service.ReasoningService;
 
 @RestController
-@PreAuthorize("hasAuthority('DERMATOLOGIST')")
 @RequestMapping("/api/ingredients")
 public class IngredientController {
 
@@ -21,17 +20,21 @@ public class IngredientController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('DERMATOLOGIST')")
     public ResponseEntity findAll() {
         return new ResponseEntity(ingredientService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('DERMATOLOGIST')")
     public ResponseEntity findIngredientInformation(@PathVariable("id") Long id) {
         return new ResponseEntity(reasoningService.findIngredientInformation(id), HttpStatus.OK);
     }
 
-    // ToDo create Ingredient
-    // ToDo update Ingredient
-    // ToDo delete Ingredient
-
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        ingredientService.delete(id);
+    }
 }

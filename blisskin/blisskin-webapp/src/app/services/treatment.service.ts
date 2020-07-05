@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 export class TreatmentService {
 
   private readonly findBestTreatmentPath = `http://localhost:${PORT}/api/treatment`;
+  private readonly createTreatmentPath = `http://localhost:${PORT}/api/treatment/new`;
   private readonly findIngredientsPath = `http://localhost:${PORT}/api/treatment/ingredients`;
 
   constructor(private http: HttpClient) { }
@@ -20,5 +21,9 @@ export class TreatmentService {
 
   findIngredientsForGivenSkinIssues(skinIssues: any[]): Observable<any> {
     return this.http.post(this.findIngredientsPath, skinIssues);
+  }
+
+  createTreatment(treatment: any): Observable<any> {
+    return this.http.post(this.createTreatmentPath, treatment);
   }
 }

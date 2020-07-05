@@ -52,16 +52,16 @@ rule "Recommend Antibiotics for eczema or psoriazis"
 salience 3
 activation-group "drug-recommendation"
     when
+        /* ako postoji terapija u prethodnih 60d gde je tretiran eczema ili psoriasis */
         SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
         Treatment($treatedSkinIssues: treatedSkinIssues, prescriptionDrug == Drug.NONE) over window:time(60d)
-        Number(intValue >= 1) from accumulate (
+        Number($numberOfTreatments: intValue >= 1) from accumulate (
             SkinIssue(name == "Eczema" || name == "Psoriasis") from $treatedSkinIssues,
             count(1)
         )
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe antibiotics");
-//        modify($response){setDrug(Drug.ANTIBIOTIC);}
         insert(new DrugRecommendation(Drug.ANTIBIOTIC))
 
 end
@@ -71,7 +71,7 @@ salience 4
 activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has eczema and/or psoriasis")
-        Number(intValue >= 2) from accumulate (
+        Number($numberOfTreatments: intValue >= 2) from accumulate (
             Treatment(
                 prescriptionDrug == Drug.ANTIBIOTIC,
                 isIssueTreated("Eczema"),
@@ -82,7 +82,6 @@ activation-group "drug-recommendation"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe corticosteroids");
-//        modify($response){setDrug(Drug.CORTICOSTEROID);}
         insert(new DrugRecommendation(Drug.CORTICOSTEROID))
 end
 
@@ -91,7 +90,7 @@ salience 1
 activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has blackheads and/or whiteheads")
-        Number(intValue >= 2) from accumulate (
+        $numberOfTreatments: Number(intValue >= 2) from accumulate (
             Treatment(
 //                prescriptionDrug == Drug.NONE,
                 isIssueTreated("Blackheads"),
@@ -102,7 +101,6 @@ activation-group "drug-recommendation"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe antifungal drug");
-//        modify($response){setDrug(Drug.ANTIFUNGAL);}
         insert(new DrugRecommendation(Drug.ANTIFUNGAL))
 end
 
@@ -111,7 +109,7 @@ salience 2
 activation-group "drug-recommendation"
     when
         SeriousSkinIssue(name == "Patient currently has acne")
-        Number(intValue >= 3) from accumulate (
+        $numberOfTreatments: Number(intValue >= 3) from accumulate (
             Treatment(
 //                prescriptionDrug == Drug.NONE,
                 isIssueTreated("Acne"))
@@ -121,7 +119,6 @@ activation-group "drug-recommendation"
         $response: TreatmentResponse()
     then
         System.out.println("Should prescribe retinoids");
-//        modify($response){setDrug(Drug.RETINOID);}
         insert(new DrugRecommendation(Drug.RETINOID))
 end
 

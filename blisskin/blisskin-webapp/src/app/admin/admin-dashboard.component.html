@@ -1,33 +1,163 @@
 <div class="d-flex align-content-center justify-content-around mb-5">
-<!--  <div class="mb-4 col-10">-->
-    <div class="row p-4 col-10 justify-content-between">
+  <!--  <div class="mb-4 col-10">-->
+  <div class="row p-4 col-10 justify-content-between">
 
-      <div class="col-4">
-        <p class="h4 mb-3 logo text-center">Add new rule</p>
-        <hr>
-        <form [formGroup]="addRuleForm">
+    <div class="col-4 sticky">
+      <p class="h4 mb-3 logo text-center">Add new rule</p>
+      <hr>
+      <form [formGroup]="addRuleForm">
+        <div class="form-group">
+          <input type="text" class="form-control shadow" id="ruleName" placeholder="Rule name" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="lhs">LHS</label>
+          <textarea class="form-control shadow" id="lhs" rows="8" placeholder="when..."
+                    formControlName="lhs"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rhs">RHS</label>
+          <textarea class="form-control shadow" id="rhs" rows="6" placeholder="then..."
+                    formControlName="rhs"></textarea>
+        </div>
+        <button class="btn btn-info btn-block shadow" type="button" (click)="onAddRule()">Add rule</button>
+      </form>
+    </div>
+
+    <div class="col-7">
+      <div class="row justify-content-between px-4">
+        <p class="h4 mb-3 logo">Users</p>
+        <button type="button" class="btn btn-sm btn-outline-light mb-2" data-toggle="modal"
+                data-target="#dermatologistModal">Add dermatologist
+        </button>
+      </div>
+      <div class="card mb-5 shadow outer">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Role</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Username</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.authorities[0]}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.username}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row">
+        <div class="col-7">
+          <p class="h4 mb-3 logo text-center">Ingredients</p>
+          <div class="card mb-5 shadow outer">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Ingredient group</th>
+                <th>Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let ingredient of ingredients">
+                <td>{{ingredient.ingredientGroup}}</td>
+                <td>{{ingredient.name}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-5">
+          <div class="row justify-content-between px-4">
+            <p class="h4 mb-3 logo text-center">Skin issues</p>
+            <button type="button" class="btn btn-sm btn-outline-light mb-2" data-toggle="modal"
+                    data-target="#skinIssueModal">Add skin issue</button>
+          </div>
+
+          <div class="card mb-5 shadow outer">
+            <table class="table text-center">
+              <tbody>
+              <tr *ngFor="let issue of skinIssues">
+                <td>{{issue.name}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- New Dermatologist modal -->
+<div class="modal fade" id="dermatologistModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="dermatologistModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dermatologistModalLabel">New Dermatologist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addDermatologistForm">
           <div class="form-group">
-<!--            <label for="ruleName">Rule name</label>-->
-            <input type="text" class="form-control shadow" id="ruleName" placeholder="Rule name" formControlName="name">
+            <label for="usernameInput">Username</label>
+            <input type="text" class="form-control" id="usernameInput" placeholder="Enter username" formControlName="username">
           </div>
           <div class="form-group">
-            <label for="lhs">LHS</label>
-            <textarea class="form-control shadow" id="lhs" rows="8" placeholder="when..." formControlName="lhs"></textarea>
+            <label for="passwordInput">Password</label>
+            <input type="password" class="form-control" id="passwordInput" placeholder="Enter password" formControlName="password">
           </div>
           <div class="form-group">
-            <label for="rhs">RHS</label>
-            <textarea class="form-control shadow" id="rhs" rows="6" placeholder="then..." formControlName="rhs"></textarea>
+            <label for="firstNameInput">First name</label>
+            <input type="text" class="form-control" id="firstNameInput" placeholder="Enter first name" formControlName="firstName">
           </div>
-          <button class="btn btn-info btn-block shadow" type="button" (click)="onAddRule()">Add rule</button>
+          <div class="form-group">
+            <label for="lastNameInput">Last name</label>
+            <input type="text" class="form-control" id="lastNameInput" placeholder="Enter last name" formControlName="lastName">
+          </div>
         </form>
       </div>
-
-      <div class="col-7">
-        <!-- ToDo dodati crud za sve - derm, ingredients, skin issues -->
-        <app-datatable></app-datatable>
-        <app-datatable></app-datatable>
-        <app-datatable></app-datatable>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn my-primary" data-dismiss="modal" (click)="onAddDermatologist()">Add</button>
       </div>
     </div>
-<!--  </div>-->
+  </div>
+</div>
+
+<!-- New Skin Issue modal -->
+<div class="modal fade" id="skinIssueModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="skinIssueModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="skinIssueModalLabel">New Skin Issue</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addSkinIssueForm">
+          <div class="form-group">
+            <label for="nameInput">Name</label>
+            <input type="text" class="form-control" id="nameInput" placeholder="Enter skin issue name" formControlName="name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn my-primary" data-dismiss="modal" (click)="onAddSkinIssue()">Add</button>
+      </div>
+    </div>
+  </div>
 </div>

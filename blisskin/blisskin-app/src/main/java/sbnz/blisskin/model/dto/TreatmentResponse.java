@@ -10,7 +10,6 @@ import sbnz.blisskin.model.enumerations.Drug;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class TreatmentResponse {
 
-    // ToDo naci sta je potrebno na frontu, ostalo da se ne salje
     private MatchedIngredient hydration;
     private MatchedIngredient exfoliant;
     private MatchedIngredient antioxidant;

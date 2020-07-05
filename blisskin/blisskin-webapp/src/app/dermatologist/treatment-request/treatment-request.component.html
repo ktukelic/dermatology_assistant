@@ -13,13 +13,13 @@
       </app-skin-assessment>
       <div class="row justify-content-center px-4">
         <span class="col-6">
-          <button class="btn btn-block btn-outline-info" (click)="onFindIngredients()" data-toggle="modal"
+          <button class="btn btn-block btn-outline-info" (click)="onFindIngredients()"
                   data-target="#ingredientsModal">
             See ingredients for given skin issues
           </button>
         </span>
         <span class="col-6">
-          <button class="btn btn-block btn-outline-success" (click)="onFindBestTreatment()" data-toggle="modal"
+          <button class="btn btn-block btn-outline-success" (click)="onFindBestTreatment()"
                   data-target="#treatmentResponseModal">
             Find best treatment
           </button>
@@ -31,7 +31,7 @@
 
 <!-- Treatment response modal -->
 <div class="modal fade" id="treatmentResponseModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+     role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" #treatmentResponseModal>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,7 +47,6 @@
           </div>
         </div>
 
-        <!-- ToDo najbolje prikazivati rezultate za svaku kategoriju posebno? -->
         <ul *ngIf="treatmentResponse != null">
           <li>Hydration: {{treatmentResponse.hydration.ingredient.name}} - {{treatmentResponse.hydration.total}}</li>
           <li>Exfoliant: {{ treatmentResponse.exfoliant.ingredient.name}} - {{treatmentResponse.exfoliant.total}}</li>
@@ -61,16 +60,85 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn my-primary">Understood</button>
+        <button type="button" class="btn my-primary" data-dismiss="modal" data-toggle="modal"
+                data-target="#newTreatmentModal">New treatment
+        </button>
+        <button type="button" class="btn btn-success" data-dismiss="modal"
+                (click)="onConfirmTreatment(treatmentResponse)">Confirm treatment
+        </button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Create new treatment modal -->
+<div class="modal fade" id="newTreatmentModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="newTreatmentLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form [formGroup]="addNewTreatmentForm">
+          <h5 class="mb-3">Ingredients</h5>
+          <div class="row flex-wrap">
+            <div class="form-group col-6">
+              <label for="hydrationSelect">Hydration</label>
+              <select class="form-control" id="hydrationSelect" formControlName="hydration">
+                <option *ngFor="let ingr of hydrationIngredients;" [ngValue]="ingr">
+                  {{ingr.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="exfoliantSelect">Exfoliant</label>
+              <select class="form-control" id="exfoliantSelect" formControlName="exfoliant">
+                <option *ngFor="let ingr of exfoliantIngredients;" [ngValue]="ingr">
+                  {{ingr.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="antioxidantSelect">Antioxidant</label>
+              <select class="form-control" id="antioxidantSelect" formControlName="antioxidant">
+                <option *ngFor="let ingr of antioxidantIngredients;" [ngValue]="ingr">
+                  {{ingr.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="skinRestoringSelect">Skin Restoring</label>
+              <select class="form-control" id="skinRestoringSelect" formControlName="skinRestoring">
+                <option *ngFor="let ingr of skinrestoringIngredients;" [ngValue]="ingr">
+                  {{ingr.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <h5 class="mb-3">Drug</h5>
+          <div class="form-group">
+            <select class="form-control" formControlName="drug">
+              <option value="0">Antifungal</option>
+              <option value="1" selected>Retinoid</option>
+              <option value="2">Antibiotic</option>
+              <option value="3">Corticosteroid</option>
+              <option value="4">Other</option>
+              <option value="5">None</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn my-primary" data-dismiss="modal" (click)="onAddTreatment()">Add treatment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Ingredient list modal -->
 <div class="modal fade" id="ingredientsModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     role="dialog" aria-labelledby="ingredientModalLabel" aria-hidden="true">
+     role="dialog" aria-labelledby="ingredientModalLabel" aria-hidden="true" #ingredientListModal>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -104,7 +172,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn my-primary">Understood</button>
       </div>
     </div>
   </div>

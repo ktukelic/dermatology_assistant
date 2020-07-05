@@ -8,7 +8,7 @@ import sbnz.blisskin.model.SkinIssue;
 import sbnz.blisskin.service.SkinIssueService;
 
 @RestController
-@RequestMapping("/api/skin-issues")
+@RequestMapping("/api/issues")
 public class SkinIssueController {
 
     private final SkinIssueService skinIssueService;
@@ -18,24 +18,27 @@ public class SkinIssueController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DERMATOLOGIST')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('DERMATOLOGIST')")
     public ResponseEntity findAll() {
-        return new ResponseEntity(skinIssueService.findAll(), HttpStatus.FOUND);
+        return new ResponseEntity(skinIssueService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DERMATOLOGIST')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('DERMATOLOGIST')")
     public ResponseEntity findById(@PathVariable("id") Long id) {
-        return new ResponseEntity(skinIssueService.findAll(), HttpStatus.FOUND);
+        return new ResponseEntity(skinIssueService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity create(@RequestBody SkinIssue skinIssue) {
         return new ResponseEntity(skinIssueService.save(skinIssue), HttpStatus.CREATED);
     }
 
-    // ToDo update skin issue (admin)
-    // ToDo delete skinIssue (admin)
-
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        skinIssueService.delete(id);
+    }
 }

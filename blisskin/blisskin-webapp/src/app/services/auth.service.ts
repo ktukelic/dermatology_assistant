@@ -104,7 +104,7 @@ export class AuthService {
       authority: fullToken.authorities.split(',')[0],
       expiration: fullToken.exp
     };
-  };
+  }
 
 
 }

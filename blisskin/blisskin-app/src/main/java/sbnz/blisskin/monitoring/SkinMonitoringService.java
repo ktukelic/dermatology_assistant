@@ -1,7 +1,6 @@
 package sbnz.blisskin.monitoring;
 
 import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -43,9 +42,9 @@ public class SkinMonitoringService {
         random = new Random(System.currentTimeMillis());
     }
 
-//    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 10000)
     public void run() {
-        steroidsSkinAtrophy(patient1);      // Tested
+        steroidsSkinAtrophy(patient1);
         steroidsRosacea(patient1);
 
         antifungalPeelingReaction(patient2);
@@ -61,9 +60,7 @@ public class SkinMonitoringService {
     private void steroidsSkinAtrophy(CloselySupervisedPatient patient) {
         SteroidPatientEvent steroidPatientEvent = new SteroidPatientEvent(patient);
         steroidPatientEvent.setPurpura(random.nextBoolean());
-        System.out.println(steroidPatientEvent.isPurpura());
         steroidPatientEvent.setBruising(random.nextBoolean());
-        System.out.println(steroidPatientEvent.isBruising());
         kieSession.insert(steroidPatientEvent);
         fireAllRules();
     }
@@ -113,7 +110,7 @@ public class SkinMonitoringService {
         fireAllRules();
     }
 
-    /* used from rools */
+    /* used from rules */
     public void notify(String patientName, String problem) {
         final String message = String.format("Patient %s - %s", patientName, problem);
         template.convertAndSend("/monitoring", message);

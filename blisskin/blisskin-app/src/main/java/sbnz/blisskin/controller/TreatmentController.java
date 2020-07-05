@@ -3,13 +3,12 @@ package sbnz.blisskin.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sbnz.blisskin.model.SkinIssue;
+import sbnz.blisskin.model.dto.TreatmentDTO;
 import sbnz.blisskin.model.dto.TreatmentRequest;
 import sbnz.blisskin.service.ReasoningService;
+import sbnz.blisskin.service.TreatmentService;
 
 import java.util.List;
 
@@ -19,9 +18,11 @@ import java.util.List;
 public class TreatmentController {
 
     private final ReasoningService reasoningService;
+    private final TreatmentService treatmentService;
 
-    public TreatmentController(ReasoningService reasoningService) {
+    public TreatmentController(ReasoningService reasoningService, TreatmentService treatmentService) {
         this.reasoningService = reasoningService;
+        this.treatmentService = treatmentService;
     }
 
     @PostMapping
@@ -32,5 +33,11 @@ public class TreatmentController {
     @PostMapping("/ingredients")
     public ResponseEntity findIngredientsForSkinIssues(@RequestBody List<SkinIssue> skinIssues) {
         return new ResponseEntity(reasoningService.findIngredientsForSkinIssues(skinIssues), HttpStatus.OK);
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity createTreatment(@RequestBody TreatmentDTO dto) {
+        treatmentService.create(dto);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

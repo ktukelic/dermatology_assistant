@@ -42,7 +42,6 @@
     </form>
 
 
-    <!-- TODO Dodati lep prikaz informacija o pacijentu -->
     <ul class="list-group text-justify mt-4" *ngIf="patient !== null">
       <li class="list-group-item"><b>First name:</b> {{patient.firstName}}</li>
       <li class="list-group-item"><b>Last name:</b> {{patient.lastName}}</li>
@@ -51,7 +50,6 @@
 
   </div>
 
-  <!-- ToDo prebaciti u drugu komponentu -->
   <div class="text-center p-5 col-6">
     <form [formGroup]="otherUserInfo" (change)="onOtherInfoChanged()">
       <p class="h4 mb-4 logo">Environmental impacts</p>

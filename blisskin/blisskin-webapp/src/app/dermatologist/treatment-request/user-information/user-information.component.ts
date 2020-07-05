@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user.service';
 import {IngredientsService} from '../../../services/ingredients.service';
 import {Patient} from '../../../model/patient';
+import {Ingredient} from '../../../model/ingredient';
 
 @Component({
   selector: 'app-user-information',
@@ -18,7 +19,7 @@ export class UserInformationComponent implements OnInit {
   otherUserInfo: FormGroup;
 
   ingredientReactions: [];
-  ingredients: [];
+  ingredients: Ingredient[];
 
   patient: Patient = null;
 

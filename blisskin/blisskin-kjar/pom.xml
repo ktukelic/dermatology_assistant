@@ -6,7 +6,7 @@
   <name>Blisskin kjar</name>
   <packaging>jar</packaging>
 
-<!--  <dependencies>-->
+  <dependencies>
 <!--    <dependency>-->
 <!--      <groupId>org.drools</groupId>-->
 <!--      <artifactId>drools-core</artifactId>-->
@@ -17,5 +17,5 @@
 <!--      <artifactId>drools-compiler</artifactId>-->
 <!--      <version>6.5.0.Final</version>-->
 <!--    </dependency>-->
-<!--  </dependencies>-->
+  </dependencies>
 </project>
